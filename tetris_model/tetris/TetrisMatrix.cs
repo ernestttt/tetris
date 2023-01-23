@@ -76,13 +76,13 @@ namespace Tetris
             return innerMatrix[rowIndex, columnIndex];
         }
 
-        public bool IsMatrixEmpty()
+        public bool IsEmpty()
         {
-            for (int row = 0; row < innerMatrix.GetLength(1); row++)
+            for (int i = 0; i < innerMatrix.GetLength(0); i++)
             {
-                for (int col = 0; col < innerMatrix.GetLength(0); col++)
+                for (int j = 0; j < innerMatrix.GetLength(1); j++)
                 {
-                    if (innerMatrix[row, col] != 0)
+                    if (innerMatrix[i, j] != 0)
                         return false;
                 }
             }
@@ -121,11 +121,11 @@ namespace Tetris
                 return;
 
             // clamp bounds
-            startHorizontalIndex = Math.Clamp(startHorizontalIndex, 0, Height - 1);
-            endHorizontalIndex = Math.Clamp(endHorizontalIndex, 0, Height - 1);
+            startHorizontalIndex = Math.Clamp(startHorizontalIndex, 0, Width - 1);
+            endHorizontalIndex = Math.Clamp(endHorizontalIndex, 0, Width - 1);
 
-            startVerticalIndex = Math.Clamp(startVerticalIndex, 0, Width - 1);
-            endVerticalIndex = Math.Clamp(endVerticalIndex, 0, Width - 1);
+            startVerticalIndex = Math.Clamp(startVerticalIndex, 0, Height - 1);
+            endVerticalIndex = Math.Clamp(endVerticalIndex, 0, Height - 1);
 
             for(int vertIndex = startVerticalIndex; vertIndex <= endVerticalIndex; vertIndex++)
             {

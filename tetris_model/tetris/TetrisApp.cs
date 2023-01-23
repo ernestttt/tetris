@@ -1,8 +1,19 @@
 ﻿using Tetris;
+using System.Threading;
 
 
-Field field = new Field();
-ConsoleView view = new ConsoleView();
+public class TetrisApp
+{
+    private static void Main()
+    {
+        Field field = new Field();
+        ConsoleView view = new ConsoleView();
 
-field.MoveDown();
-view.Draw(field.ViewMatrix);
+        while (true)
+        {
+            field.MoveDown();
+            view.Draw(field.ViewMatrix);
+            Task.Delay(1000).Wait();
+        }
+    }
+}

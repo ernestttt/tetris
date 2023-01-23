@@ -25,7 +25,11 @@ namespace Tetris
 
         public void MoveDown()
         {
-            Spawn();
+            if (figureMatrix_24x10.IsEmpty())
+            {
+                Spawn();
+            }
+            
             figureMatrix_24x10.Move(MovementType.Down);
             matrix_24x10.CombineWith(figureMatrix_24x10, 0, 0, PivotType.TopLeft);
             UpdateViewMatrix();
