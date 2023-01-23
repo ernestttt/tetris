@@ -4,6 +4,8 @@ using System.Threading;
 
 public class TetrisApp
 {
+    private const int delay = 70;
+
     private static void Main()
     {
         Field field = new Field();
@@ -13,7 +15,7 @@ public class TetrisApp
         {
             field.MoveDown();
             view.Draw(field.ViewMatrix);
-            Task.Delay(1000).Wait();
+            Task.Delay(delay).Wait();
         }
     }
 }

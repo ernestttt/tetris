@@ -34,7 +34,7 @@ namespace Tetris
                 Spawn();
             }
 
-            if (!figureMatrix_24x10.Move(MovementType.Down))
+            if (!figureMatrix_24x10.Move(MovementType.Down, heapMatrix_24x10))
             {
                 heapMatrix_24x10.CombineWith(figureMatrix_24x10, 0, 0);
                 figureMatrix_24x10.Clear();

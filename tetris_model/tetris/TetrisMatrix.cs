@@ -379,9 +379,38 @@ namespace Tetris
                 {
                     innerMatrix[0, i] = 0;
                 }
+
+                if (IsOverlap(otherMatrix))
+                {
+                    for (int i = 0; i < innerMatrix.GetLength(0) - 1; i++)
+                    {
+                        for(int j =0; j < innerMatrix.GetLength(1); j++)
+                        {
+                            innerMatrix[i, j] = innerMatrix[i + 1, j];
+                        }
+                    }
+
+                    return false;
+                }
             }
 
             return true;
+        }
+
+        private bool IsOverlap(TetrisMatrix other)
+        {
+            for(int i = 0; i < Height; i++)
+            {
+                for(int j = 0; j < Width; j++)
+                {
+                    if (innerMatrix[i, j] != 0 && other.GetElementAt(i,j) != 0) 
+                    { 
+                        return true; 
+                    }
+                }
+            }
+
+            return false;
         }
 
         public override string ToString()
