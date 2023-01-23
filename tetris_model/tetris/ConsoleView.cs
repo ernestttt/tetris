@@ -6,6 +6,11 @@ using System.Threading.Tasks;
 
 internal class ConsoleView
 {
+    public ConsoleView()
+    {
+        Console.CursorVisible = false;
+    }
+
     public void Draw(byte[,] viewMatrix)
     {
         Console.Clear();

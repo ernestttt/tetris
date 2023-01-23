@@ -14,24 +14,33 @@ namespace Tetris
 
         private TetrisMatrix matrix_24x10;
         private TetrisMatrix figureMatrix_24x10;
+        private TetrisMatrix heapMatrix_24x10;
 
         public Field()
         {
             figureMatrix_24x10 = new TetrisMatrix(24, 10);
             matrix_24x10 = new TetrisMatrix(24, 10);
+            heapMatrix_24x10 = new TetrisMatrix(24, 10);
 
             ViewMatrix = new byte[20, 10];
         }
 
         public void MoveDown()
         {
+            matrix_24x10.Clear();
+
             if (figureMatrix_24x10.IsEmpty())
             {
                 Spawn();
             }
-            
-            figureMatrix_24x10.Move(MovementType.Down);
+
+            if (!figureMatrix_24x10.Move(MovementType.Down))
+            {
+                heapMatrix_24x10.CombineWith(figureMatrix_24x10, 0, 0);
+                figureMatrix_24x10.Clear();
+            }
             matrix_24x10.CombineWith(figureMatrix_24x10, 0, 0, PivotType.TopLeft);
+            matrix_24x10.CombineWith(heapMatrix_24x10, 0, 0);
             UpdateViewMatrix();
         }
 

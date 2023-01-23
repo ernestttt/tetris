@@ -135,7 +135,10 @@ namespace Tetris
                     int otherVertIndex = vertIndex - verticalOffset;
                     int otherHorIndex = horIndex - horizontalOffset;
 
-                    innerMatrix[vertIndex, horIndex] = otherMatrix.GetElementAt(otherVertIndex ,otherHorIndex);
+                    if(otherMatrix.GetElementAt(otherVertIndex, otherHorIndex) != 0)
+                    {
+                        innerMatrix[vertIndex, horIndex] = otherMatrix.GetElementAt(otherVertIndex, otherHorIndex);
+                    }
                 }
             }
         }
@@ -271,11 +274,11 @@ namespace Tetris
             }
             if (movement == MovementType.Right)
             {
-                isItPossibleToMove = bounds.EndHorizontalIndex != 0;
+                isItPossibleToMove = bounds.EndHorizontalIndex != Width - 1;
             }
             if (movement == MovementType.Down)
             {
-                isItPossibleToMove = bounds.EndVerticalIndex != 0;
+                isItPossibleToMove = bounds.EndVerticalIndex != Height - 1;
             }
 
             return isItPossibleToMove;
@@ -355,10 +358,15 @@ namespace Tetris
             throw new NotImplementedException();
         }
 
-        public void Move(MovementType movement)
+        public bool Move(MovementType movement, TetrisMatrix otherMatrix = null)
         {
             if(movement == MovementType.Down)
             {
+                if (!IsItPossibleToMove(movement))
+                {
+                    return false;
+                }
+
                 for(int i = innerMatrix.GetLength(0) - 2; i >= 0; i--)
                 {
                     for (int j = 0; j < innerMatrix.GetLength(1); j++)
@@ -372,6 +380,8 @@ namespace Tetris
                     innerMatrix[0, i] = 0;
                 }
             }
+
+            return true;
         }
 
         public override string ToString()
