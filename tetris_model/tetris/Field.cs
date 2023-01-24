@@ -25,7 +25,7 @@ namespace Tetris
             ViewMatrix = new byte[20, 10];
         }
 
-        public void MoveDown()
+        public void Step()
         {
             matrix_24x10.Clear();
 
@@ -39,6 +39,7 @@ namespace Tetris
                 heapMatrix_24x10.CombineWith(figureMatrix_24x10, 0, 0);
                 figureMatrix_24x10.Clear();
             }
+
             matrix_24x10.CombineWith(figureMatrix_24x10, 0, 0, PivotType.TopLeft);
             matrix_24x10.CombineWith(heapMatrix_24x10, 0, 0);
             UpdateViewMatrix();
@@ -46,12 +47,12 @@ namespace Tetris
 
         public void MoveLeft()
         {
-
+            figureMatrix_24x10.Move(MovementType.Left, heapMatrix_24x10);
         }
 
         public void MoveRight()
         {
-
+            figureMatrix_24x10.Move(MovementType.Right, heapMatrix_24x10);
         }
 
         private void UpdateViewMatrix()

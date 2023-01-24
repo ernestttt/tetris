@@ -14,7 +14,7 @@ public class TetrisApp
         _ = ListenToInput(field);
         while (true)
         {
-            field.MoveDown();
+            field.Step();
             view.Draw(field.ViewMatrix);
             Task.Delay(delay).Wait();
         }
@@ -28,11 +28,11 @@ public class TetrisApp
             var key = Console.ReadKey();
             if(key.Key == ConsoleKey.LeftArrow)
             {
-
+                field.MoveLeft();
             }
             else if(key.Key == ConsoleKey.RightArrow)
             {
-
+                field.MoveRight();
             }
         }  
     }

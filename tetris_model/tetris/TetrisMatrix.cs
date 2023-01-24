@@ -387,13 +387,13 @@ namespace Tetris
                     innerMatrix[0, i] = 0;
                 }
 
-                if (IsOverlap(otherMatrix))
+                if (otherMatrix != null && IsOverlap(otherMatrix))
                 {
                     for (int i = 0; i < innerMatrix.GetLength(0) - 1; i++)
                     {
-                        for(int j =0; j < innerMatrix.GetLength(1); j++)
+                        for(int j = 0; j < innerMatrix.GetLength(1); j++)
                         {
-                            innerMatrix[i, j] = innerMatrix[i + 1, j];
+                            innerMatrix[i, j] = innerMatrix[i+1, j];
                         }
                     }
 
@@ -411,13 +411,65 @@ namespace Tetris
                 {
                     for(int j = 0; j < innerMatrix.GetLength(1) - 1; j++)
                     {
-                        //innerMatrix[i,j] == innerMatrix[]
+                        innerMatrix[i, j] = innerMatrix[i, j + 1];
                     }
+                }
+
+                for (int i = 0; i < innerMatrix.GetLength(0); i++)
+                {
+                    innerMatrix[i, Width - 1] = 0;
+                }
+
+                if (otherMatrix != null && IsOverlap(otherMatrix))
+                {
+                    for (int i = 0; i < innerMatrix.GetLength(0); i++)
+                    {
+                        for (int j = innerMatrix.GetLength(1) - 1; j > 0; j--)
+                        {
+                            innerMatrix[i, j] = innerMatrix[i, j - 1];
+                        }
+                    }
+
+                    for (int i = 0; i < innerMatrix.GetLength(0); i++)
+                    {
+                        innerMatrix[i, 0] = 0;
+                    }
+
+                    return false;
                 }
             }
             else if (movement == MovementType.Right)
             {
+                for (int i = 0; i < innerMatrix.GetLength(0); i++)
+                {
+                    for (int j = innerMatrix.GetLength(1) - 1; j > 0; j--)
+                    {
+                        innerMatrix[i, j] = innerMatrix[i, j - 1];
+                    }
+                }
 
+                for (int i = 0; i < innerMatrix.GetLength(0); i++)
+                {
+                    innerMatrix[i, 0] = 0;
+                }
+
+                if (otherMatrix != null && IsOverlap(otherMatrix))
+                {
+                    for (int i = 0; i < innerMatrix.GetLength(0); i++)
+                    {
+                        for (int j = 0; j < innerMatrix.GetLength(1) - 1; j++)
+                        {
+                            innerMatrix[i, j] = innerMatrix[i, j + 1];
+                        }
+                    }
+
+                    for (int i = 0; i < innerMatrix.GetLength(0); i++)
+                    {
+                        innerMatrix[i, Width - 1] = 0;
+                    }
+                    
+                    return false;
+                }
             }
 
             return true;
