@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "wPoXDSsJuj5SXbtJ8YaG0YOkiEwGKs6PddWpLxGIZgXaDg9SKK6NcpgqmS2sIMMhNyGmEkUj0IuL13+OsnoJlA==",
+  "dgSpecHash": "AsQ7XgPA+5vw8GHvHuQUTTUvRF6QqJx1f1d+3VPWyjeiPhBmFW7WPtOj9jgL1IUMYzl77mpz53nJ4SIXmwJpZw==",
   "success": true,
-  "projectFilePath": "D:\\unity_projects\\simple\\tetris_model\\tetris\\tetris_app.csproj",
+  "projectFilePath": "D:\\unity_projects\\simple\\tetris_model\\tetris\\Tetris.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

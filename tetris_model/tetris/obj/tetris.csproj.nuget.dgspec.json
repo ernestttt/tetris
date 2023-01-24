@@ -1,15 +1,15 @@
 {
   "format": 1,
   "restore": {
-    "D:\\unity_projects\\simple\\tetris_model\\tetris\\tetris.csproj": {}
+    "D:\\unity_projects\\simple\\tetris_model\\tetris\\Tetris.csproj": {}
   },
   "projects": {
-    "D:\\unity_projects\\simple\\tetris_model\\tetris\\tetris.csproj": {
+    "D:\\unity_projects\\simple\\tetris_model\\tetris\\Tetris.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\unity_projects\\simple\\tetris_model\\tetris\\tetris.csproj",
-        "projectName": "tetris",
-        "projectPath": "D:\\unity_projects\\simple\\tetris_model\\tetris\\tetris.csproj",
+        "projectUniqueName": "D:\\unity_projects\\simple\\tetris_model\\tetris\\Tetris.csproj",
+        "projectName": "Tetris",
+        "projectPath": "D:\\unity_projects\\simple\\tetris_model\\tetris\\Tetris.csproj",
         "packagesPath": "C:\\Users\\yurig\\.nuget\\packages\\",
         "outputPath": "D:\\unity_projects\\simple\\tetris_model\\tetris\\obj\\",
         "projectStyle": "PackageReference",

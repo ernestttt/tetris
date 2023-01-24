@@ -76,7 +76,7 @@ namespace Tetris
         {
             TetrisFigure innerFigureType = figureType;
 
-            if(figureType == TetrisFigure.Random)
+            if (figureType == TetrisFigure.Random)
             {
                 int randomIndex = random.Next(figures.Keys.Count());
                 innerFigureType = figures.Keys.ToArray()[randomIndex];

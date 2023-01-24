@@ -6,15 +6,15 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v6.0": {
-      "tetris/1.0.0": {
+      "Tetris/1.0.0": {
         "runtime": {
-          "tetris.dll": {}
+          "Tetris.dll": {}
         }
       }
     }
   },
   "libraries": {
-    "tetris/1.0.0": {
+    "Tetris/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

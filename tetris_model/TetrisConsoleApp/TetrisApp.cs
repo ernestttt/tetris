@@ -4,7 +4,7 @@ using System.Threading;
 
 public class TetrisApp
 {
-    private const int delay = 70;
+    private const int delay = 1000/30;
 
     private static void Main()
     {

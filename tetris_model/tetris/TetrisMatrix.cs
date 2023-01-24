@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Numerics;
 using System.Reflection.Metadata.Ecma335;
@@ -54,20 +55,22 @@ namespace Tetris
 
         public int Height => innerMatrix.GetLength(0);
         public int Width => innerMatrix.GetLength(1);
-        
+
         public int VerticalIndexOfLastElement => Height - 1;
         public int HorizontalIndexOfLastElement => Width - 1;
 
         public TetrisMatrix(int vertical, int horizontal)
         {
-            innerMatrix= new byte[vertical, horizontal];
+            innerMatrix = new byte[vertical, horizontal];
             Clear();
+            transposeMatrix = new byte[Width, Height];
             PrecalculateTranspose();
         }
 
         public TetrisMatrix(byte[,] matrix)
         {
             innerMatrix = matrix;
+            transposeMatrix = new byte[Width, Height];
             PrecalculateTranspose();
         }
 
@@ -101,7 +104,7 @@ namespace Tetris
                 horizontalOffsetLeft = Width - otherMatrix.Width + horizontalOffset;
             }
 
-            if(pivot == PivotType.BottomLeft || pivot == PivotType.BottomRight)
+            if (pivot == PivotType.BottomLeft || pivot == PivotType.BottomRight)
             {
                 verticalOffsetTop = Height - Height + verticalOffset;
             }
@@ -112,7 +115,7 @@ namespace Tetris
         private void CombineWith_LeftPivot(TetrisMatrix otherMatrix, int verticalOffset, int horizontalOffset)
         {
             int startHorizontalIndex = horizontalOffset;
-            int endHorizontalIndex = horizontalOffset + otherMatrix.Width -1;
+            int endHorizontalIndex = horizontalOffset + otherMatrix.Width - 1;
             int startVerticalIndex = verticalOffset;
             int endVerticalIndex = verticalOffset + otherMatrix.Height - 1;
 
@@ -127,15 +130,15 @@ namespace Tetris
             startVerticalIndex = Math.Clamp(startVerticalIndex, 0, Height - 1);
             endVerticalIndex = Math.Clamp(endVerticalIndex, 0, Height - 1);
 
-            for(int vertIndex = startVerticalIndex; vertIndex <= endVerticalIndex; vertIndex++)
+            for (int vertIndex = startVerticalIndex; vertIndex <= endVerticalIndex; vertIndex++)
             {
-                for(int horIndex = startHorizontalIndex; horIndex <= endHorizontalIndex; horIndex++)
+                for (int horIndex = startHorizontalIndex; horIndex <= endHorizontalIndex; horIndex++)
                 {
                     //calculate indices for otherMatrix
                     int otherVertIndex = vertIndex - verticalOffset;
                     int otherHorIndex = horIndex - horizontalOffset;
 
-                    if(otherMatrix.GetElementAt(otherVertIndex, otherHorIndex) != 0)
+                    if (otherMatrix.GetElementAt(otherVertIndex, otherHorIndex) != 0)
                     {
                         innerMatrix[vertIndex, horIndex] = otherMatrix.GetElementAt(otherVertIndex, otherHorIndex);
                     }
@@ -146,22 +149,22 @@ namespace Tetris
         public void Rotate(Rotation rotation, int times = 1)
         {
             Rotation currentRotation = rotation;
-            for(int i = 0; i < times; i++)
+            for (int i = 0; i < times; i++)
             {
                 Rotate(rotation);
-                currentRotation = currentRotation == Rotation.Left ? Rotation.Right : Rotation.Left; 
+                currentRotation = currentRotation == Rotation.Left ? Rotation.Right : Rotation.Left;
             }
         }
 
         private void Rotate(Rotation rotation)
         {
-            MirrorAroundAxis(rotation == Rotation.Right ? Axis.Horizontal: Axis.Vertical);
+            MirrorAroundAxis(rotation == Rotation.Right ? Axis.Horizontal : Axis.Vertical);
             TransposeMatrix();
         }
 
         private void MirrorAroundAxis(Axis axis)
         {
-            if(axis == Axis.Vertical)
+            if (axis == Axis.Vertical)
             {
                 MirrorAroundVertical();
             }
@@ -209,11 +212,6 @@ namespace Tetris
 
         private void PrecalculateTranspose()
         {
-            if (transposeMatrix == null)
-            {
-                transposeMatrix = new byte[Width, Height];
-            }
-
             for (int i = 0; i < innerMatrix.GetLength(0); i++)
             {
                 for (int j = 0; j < innerMatrix.GetLength(1); j++)
@@ -239,13 +237,13 @@ namespace Tetris
             int height = bounds.EndVerticalIndex - bounds.StartVerticalIndex;
             int width = bounds.EndHorizontalIndex - bounds.StartHorizontalIndex;
 
-            byte[,] valueBlock= new byte[height, width];
+            byte[,] valueBlock = new byte[height, width];
 
             for (int row = 0; row < height; row++)
             {
-                for(int col = 0; col < width; col++)
+                for (int col = 0; col < width; col++)
                 {
-                    valueBlock[row,col] = innerMatrix[row + bounds.StartVerticalIndex,col + bounds.StartHorizontalIndex];
+                    valueBlock[row, col] = innerMatrix[row + bounds.StartVerticalIndex, col + bounds.StartHorizontalIndex];
                 }
             }
 
@@ -254,11 +252,11 @@ namespace Tetris
 
         public void Clear()
         {
-            for(int i = 0; i < innerMatrix.GetLength(0); i++)
+            for (int i = 0; i < innerMatrix.GetLength(0); i++)
             {
                 for (int j = 0; j < innerMatrix.GetLength(1); j++)
                 {
-                    innerMatrix[i,j] = 0;
+                    innerMatrix[i, j] = 0;
                 }
             }
         }
@@ -268,7 +266,7 @@ namespace Tetris
             bool isItPossibleToMove = true;
             MatrixBounds bounds = MatrixBounds.CalculateBounds(this);
 
-            if(movement == MovementType.Left)
+            if (movement == MovementType.Left)
             {
                 isItPossibleToMove = bounds.StartHorizontalIndex != 0;
             }
@@ -282,6 +280,14 @@ namespace Tetris
             }
 
             return isItPossibleToMove;
+        }
+
+        public byte this[int i, int j]
+        {
+            get
+            {
+                return innerMatrix[i, j];
+            }
         }
 
 
