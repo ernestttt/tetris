@@ -1,30 +1,11 @@
 {
   "version": 3,
   "targets": {
-    "net6.0": {
-      "Tetris/1.0.0": {
-        "type": "project",
-        "framework": ".NETCoreApp,Version=v6.0",
-        "compile": {
-          "bin/placeholder/Tetris.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/Tetris.dll": {}
-        }
-      }
-    }
+    "net6.0": {}
   },
-  "libraries": {
-    "Tetris/1.0.0": {
-      "type": "project",
-      "path": "../tetris_1/Tetris.csproj",
-      "msbuildProject": "../tetris_1/Tetris.csproj"
-    }
-  },
+  "libraries": {},
   "projectFileDependencyGroups": {
-    "net6.0": [
-      "Tetris >= 1.0.0"
-    ]
+    "net6.0": []
   },
   "packageFolders": {
     "C:\\Users\\yurig\\.nuget\\packages\\": {}
@@ -32,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\unity_projects\\simple\\tetris_model\\tetris\\tetris_app.csproj",
-      "projectName": "tetris_app",
-      "projectPath": "D:\\unity_projects\\simple\\tetris_model\\tetris\\tetris_app.csproj",
+      "projectUniqueName": "D:\\unity_projects\\simple\\tetris_model\\tetris_1\\Tetris.csproj",
+      "projectName": "Tetris",
+      "projectPath": "D:\\unity_projects\\simple\\tetris_model\\tetris_1\\Tetris.csproj",
       "packagesPath": "C:\\Users\\yurig\\.nuget\\packages\\",
-      "outputPath": "D:\\unity_projects\\simple\\tetris_model\\tetris\\obj\\",
+      "outputPath": "D:\\unity_projects\\simple\\tetris_model\\tetris_1\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\yurig\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -52,11 +33,7 @@
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
-          "projectReferences": {
-            "D:\\unity_projects\\simple\\tetris_model\\tetris_1\\Tetris.csproj": {
-              "projectPath": "D:\\unity_projects\\simple\\tetris_model\\tetris_1\\Tetris.csproj"
-            }
-          }
+          "projectReferences": {}
         }
       },
       "warningProperties": {

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Tetris
 {
-    internal class Field
+    public class Field
     {
         private Random random = new Random();
 
@@ -42,6 +42,16 @@ namespace Tetris
             matrix_24x10.CombineWith(figureMatrix_24x10, 0, 0, PivotType.TopLeft);
             matrix_24x10.CombineWith(heapMatrix_24x10, 0, 0);
             UpdateViewMatrix();
+        }
+
+        public void MoveLeft()
+        {
+
+        }
+
+        public void MoveRight()
+        {
+
         }
 
         private void UpdateViewMatrix()

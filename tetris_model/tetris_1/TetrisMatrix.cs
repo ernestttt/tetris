@@ -358,15 +358,16 @@ namespace Tetris
             throw new NotImplementedException();
         }
 
+        // refactor this method
         public bool Move(MovementType movement, TetrisMatrix otherMatrix = null)
         {
-            if(movement == MovementType.Down)
+            if (!IsItPossibleToMove(movement))
             {
-                if (!IsItPossibleToMove(movement))
-                {
-                    return false;
-                }
+                return false;
+            }
 
+            if (movement == MovementType.Down)
+            {
                 for(int i = innerMatrix.GetLength(0) - 2; i >= 0; i--)
                 {
                     for (int j = 0; j < innerMatrix.GetLength(1); j++)
@@ -390,8 +391,27 @@ namespace Tetris
                         }
                     }
 
+                    for (int i = 0; i < innerMatrix.GetLength(1); i++)
+                    {
+                        innerMatrix[0, i] = 0;
+                    }
+
                     return false;
                 }
+            }
+            else if (movement == MovementType.Left)
+            {
+                for (int i = 0; i < innerMatrix.GetLength(0); i++)
+                {
+                    for(int j = 0; j < innerMatrix.GetLength(1) - 1; j++)
+                    {
+                        //innerMatrix[i,j] == innerMatrix[]
+                    }
+                }
+            }
+            else if (movement == MovementType.Right)
+            {
+
             }
 
             return true;

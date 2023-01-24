@@ -1,0 +1,122 @@
+{
+  "format": 1,
+  "restore": {
+    "D:\\unity_projects\\simple\\tetris_model\\tetris\\tetris_app.csproj": {}
+  },
+  "projects": {
+    "D:\\unity_projects\\simple\\tetris_model\\tetris\\tetris_app.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\unity_projects\\simple\\tetris_model\\tetris\\tetris_app.csproj",
+        "projectName": "tetris_app",
+        "projectPath": "D:\\unity_projects\\simple\\tetris_model\\tetris\\tetris_app.csproj",
+        "packagesPath": "C:\\Users\\yurig\\.nuget\\packages\\",
+        "outputPath": "D:\\unity_projects\\simple\\tetris_model\\tetris\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\yurig\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {
+              "D:\\unity_projects\\simple\\tetris_model\\tetris_1\\Tetris.csproj": {
+                "projectPath": "D:\\unity_projects\\simple\\tetris_model\\tetris_1\\Tetris.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.102\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "D:\\unity_projects\\simple\\tetris_model\\tetris_1\\Tetris.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\unity_projects\\simple\\tetris_model\\tetris_1\\Tetris.csproj",
+        "projectName": "Tetris",
+        "projectPath": "D:\\unity_projects\\simple\\tetris_model\\tetris_1\\Tetris.csproj",
+        "packagesPath": "C:\\Users\\yurig\\.nuget\\packages\\",
+        "outputPath": "D:\\unity_projects\\simple\\tetris_model\\tetris_1\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\yurig\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.102\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
