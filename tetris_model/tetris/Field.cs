@@ -20,8 +20,13 @@ namespace Tetris
         public void Step()
         {
             ClearViewMatrix();
-            figure.Spawn();
+            if (figure.IsEmpty)
+            {
+                figure.Spawn();
+            }
+            
             figure.Move(MovementType.Down);
+
             UpdateViewMatrix();
         }
 

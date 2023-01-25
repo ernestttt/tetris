@@ -12,13 +12,12 @@ public class TetrisApp
         ConsoleView view = new ConsoleView();
 
         _ = ListenToInput(field);
-        field.Step();
-        view.Draw(field.ViewMatrix);
+        
 
-        return;
         while (true)
         {
-            
+            field.Step();
+            view.Draw(field.ViewMatrix);
             Task.Delay(delay).Wait();
         }
     }

@@ -1,88 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
+using System.Runtime.InteropServices;
 
-namespace Tetris
-{
-    internal class Figure
-    {
-        private Random random = new Random();
-        private int[] pos = new int[2] { 0, 0 };
-        private int[] offset = new int[2] { 0, 0 };
-        private int[] innerSize = new int[2] { 0, 0 };
+// In SDK-style projects such as this one, several assembly attributes that were historically
+// defined in this file are now automatically added during build and populated with
+// values defined in project properties. For details of which attributes are included
+// and how to customise this process see: https://aka.ms/assembly-info-properties
 
-        private int[,] matrix;
 
-        private int rotation;
-        private TetrisFigures.TetrisFigure figureType;
+// Setting ComVisible to false makes the types in this assembly not visible to COM
+// components.  If you need to access a type in this assembly from COM, set the ComVisible
+// attribute to true on that type.
 
-        public int[,] Matrix => matrix;
-        public int[] Pos => pos;
+[assembly: ComVisible(false)]
 
-        public void Spawn()
-        {
-            figureType = (TetrisFigures.TetrisFigure)random.Next(7);
-            rotation = random.Next(4);
-            matrix = TetrisFigures.GetFigure(figureType, rotation);
+// The following GUID is for the ID of the typelib if this project is exposed to COM.
 
-            CalculateInnerSizeAndOffset();
-
-            pos[0] = random.Next(-offset[0], 10 - innerSize[0] - offset[0]);
-            pos[1] = 4 - innerSize[1] - offset[1];
-        }
-
-        public void Move(MovementType movement)
-        {
-            if(MovementType.Down == movement)
-            {
-                pos[1]++;
-            }
-        }
-
-        private void CalculateInnerSizeAndOffset()
-        {
-            int startVerticalIndex = int.MaxValue;
-            int endVerticalIndex = int.MinValue;
-            int startHorizontalIndex = int.MaxValue;
-            int endHorizontalIndex = int.MinValue;
-
-            for(int i = 0; i < matrix.GetLength(0); i++)
-            {
-                for(int j = 0; j < matrix.GetLength(1); j++)
-                {
-                    if (matrix[i, j] == 0)
-                    {
-                        continue;
-                    }
-
-                    if(startVerticalIndex > i)
-                    {
-                        startVerticalIndex = i;
-                    }
-                    if(endVerticalIndex < i) 
-                    { 
-                        endVerticalIndex = i;
-                    }
-                    if(startHorizontalIndex > j)
-                    {
-                        startHorizontalIndex = j;
-                    }
-                    if(endHorizontalIndex < j)
-                    {
-                        endHorizontalIndex = j;
-                    }
-                }
-            }
-
-            innerSize[0] = endHorizontalIndex - startHorizontalIndex + 1;
-            innerSize[1] = endVerticalIndex - startVerticalIndex + 1;
-
-            offset[0] = startHorizontalIndex;
-            offset[1] = startVerticalIndex;
-        }
-    }
-}
+[assembly: Guid("082fffda-74a4-402d-896e-157a3ac076d7")]
