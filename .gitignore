@@ -72,6 +72,6 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 
 # For the internal C# projects
-**/bin
-**/obj
-**/.vs
+/tetris_model/*/bin
+/tetris_model/*/obj
+/tetris_model/*/.vs

@@ -12,10 +12,13 @@ public class TetrisApp
         ConsoleView view = new ConsoleView();
 
         _ = ListenToInput(field);
+        field.Step();
+        view.Draw(field.ViewMatrix);
+
+        return;
         while (true)
         {
-            field.Step();
-            view.Draw(field.ViewMatrix);
+            
             Task.Delay(delay).Wait();
         }
     }
@@ -28,11 +31,19 @@ public class TetrisApp
             var key = Console.ReadKey();
             if(key.Key == ConsoleKey.LeftArrow)
             {
-                field.MoveLeft();
+                //field.MoveLeft();
             }
             else if(key.Key == ConsoleKey.RightArrow)
             {
-                field.MoveRight();
+                //field.MoveRight();
+            }
+            else if(key.Key == ConsoleKey.UpArrow)
+            {
+
+            }
+            else if(key.Key == ConsoleKey.DownArrow)
+            {
+
             }
         }  
     }

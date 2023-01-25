@@ -8,70 +8,50 @@ namespace Tetris
 {
     public class Field
     {
-        private Random random = new Random();
-
         public byte[,] ViewMatrix { get; init; }
 
-        private TetrisMatrix matrix_24x10;
-        private TetrisMatrix figureMatrix_24x10;
-        private TetrisMatrix heapMatrix_24x10;
+        private Figure figure = new Figure();
 
         public Field()
         {
-            figureMatrix_24x10 = new TetrisMatrix(24, 10);
-            matrix_24x10 = new TetrisMatrix(24, 10);
-            heapMatrix_24x10 = new TetrisMatrix(24, 10);
-
             ViewMatrix = new byte[20, 10];
         }
 
         public void Step()
         {
-            matrix_24x10.Clear();
-
-            if (figureMatrix_24x10.IsEmpty())
-            {
-                Spawn();
-            }
-
-            if (!figureMatrix_24x10.Move(MovementType.Down, heapMatrix_24x10))
-            {
-                heapMatrix_24x10.CombineWith(figureMatrix_24x10, 0, 0);
-                figureMatrix_24x10.Clear();
-            }
-
-            matrix_24x10.CombineWith(figureMatrix_24x10, 0, 0, PivotType.TopLeft);
-            matrix_24x10.CombineWith(heapMatrix_24x10, 0, 0);
+            ClearViewMatrix();
+            figure.Spawn();
+            figure.Move(MovementType.Down);
             UpdateViewMatrix();
         }
 
-        public void MoveLeft()
-        {
-            figureMatrix_24x10.Move(MovementType.Left, heapMatrix_24x10);
-        }
 
-        public void MoveRight()
-        {
-            figureMatrix_24x10.Move(MovementType.Right, heapMatrix_24x10);
-        }
-
-        private void UpdateViewMatrix()
+        private void ClearViewMatrix()
         {
             for (int i = 0; i < ViewMatrix.GetLength(0); i++)
             {
                 for (int j = 0; j < ViewMatrix.GetLength(1); j++)
                 {
-                    ViewMatrix[i, j] = matrix_24x10.GetElementAt(i + 4, j);
+                    ViewMatrix[i, j] = 0;
                 }
             }
         }
 
-        public void Spawn()
+        private void UpdateViewMatrix()
         {
-            TetrisMatrix figure = TetrisFigures.GetFigure(TetrisFigure.Random);
-            figure.Rotate(random.Next(2) == 0 ? Rotation.Right : Rotation.Left, random.Next(3));
+            for (int i = 0; i < figure.Matrix.GetLength(0); i++)
+            {
+                for (int j = 0; j < figure.Matrix.GetLength(1); j++)
+                {
+                    int viewMatrixPosHor = j + figure.Pos[0];
+                    int viewMatrixPosVert = i + figure.Pos[1] - 4;
 
-            figureMatrix_24x10.CombineWith(figure, 4 - figure.Height, random.Next(figureMatrix_24x10.Width - figure.Width));
+                    if (viewMatrixPosHor >= 0 && viewMatrixPosHor < ViewMatrix.GetLength(1) && viewMatrixPosVert >= 0 && viewMatrixPosVert < ViewMatrix.GetLength(0))
+                    {
+                        ViewMatrix[viewMatrixPosVert, viewMatrixPosHor] = (byte)figure.Matrix[i, j];
+                    }
+                }
+            }
         }
     }
 }
