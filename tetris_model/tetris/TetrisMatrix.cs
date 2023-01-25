@@ -23,11 +23,10 @@ namespace Tetris
         Right,
     }
 
-    
-
     public enum MovementType
     {
        Down = 0,
+       Up,
        Left,
        Right,
     }

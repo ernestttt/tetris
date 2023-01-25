@@ -12,6 +12,8 @@ namespace Tetris
 
         private Figure figure = new Figure();
 
+        private Heap heap= new Heap();
+
         public Field()
         {
             ViewMatrix = new byte[20, 10];
@@ -20,13 +22,7 @@ namespace Tetris
         public void Step()
         {
             ClearViewMatrix();
-            if (figure.IsEmpty)
-            {
-                figure.Spawn();
-            }
-            
-            figure.Move(MovementType.Down);
-
+            figure.Move(MovementType.Down, heap);
             UpdateViewMatrix();
         }
 
@@ -44,16 +40,23 @@ namespace Tetris
 
         private void UpdateViewMatrix()
         {
-            for (int i = 0; i < figure.Matrix.GetLength(0); i++)
+            // figure
+            foreach(Point point in figure.Points)
             {
-                for (int j = 0; j < figure.Matrix.GetLength(1); j++)
+                if (point.X >= 0 && point.X < ViewMatrix.GetLength(1) && point.Y >= 0 && point.Y < ViewMatrix.GetLength(0))
                 {
-                    int viewMatrixPosHor = j + figure.Pos[0];
-                    int viewMatrixPosVert = i + figure.Pos[1] - 4;
+                    ViewMatrix[point.Y, point.X] = 1;
+                }
+            }
 
-                    if (viewMatrixPosHor >= 0 && viewMatrixPosHor < ViewMatrix.GetLength(1) && viewMatrixPosVert >= 0 && viewMatrixPosVert < ViewMatrix.GetLength(0))
+            // heap
+            for (int i = 0; i < ViewMatrix.GetLength(0); i++)
+            {
+                for (int j = 0; j < ViewMatrix.GetLength(1); j++)
+                {
+                    if (heap.Matrix[i,j] != 0)
                     {
-                        ViewMatrix[viewMatrixPosVert, viewMatrixPosHor] = (byte)figure.Matrix[i, j];
+                        ViewMatrix[i,j] = 1;
                     }
                 }
             }

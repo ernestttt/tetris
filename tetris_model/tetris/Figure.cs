@@ -1,17 +1,163 @@
-using System.Runtime.InteropServices;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Numerics;
+using System.Runtime.CompilerServices;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
-// In SDK-style projects such as this one, several assembly attributes that were historically
-// defined in this file are now automatically added during build and populated with
-// values defined in project properties. For details of which attributes are included
-// and how to customise this process see: https://aka.ms/assembly-info-properties
+namespace Tetris
+{
+    internal class Figure
+    {
+        private const int SPAWNER_SPACE = 4;
 
 
-// Setting ComVisible to false makes the types in this assembly not visible to COM
-// components.  If you need to access a type in this assembly from COM, set the ComVisible
-// attribute to true on that type.
+        private Random random = new Random();
+        private int[] pos = new int[2] { 0, 0 };
+        private int[] offset = new int[2] { 0, 0 };
+        private int[] innerSize = new int[2] { 0, 0 };
 
-[assembly: ComVisible(false)]
+        private int[,] matrix;
 
-// The following GUID is for the ID of the typelib if this project is exposed to COM.
+        private int rotation;
+        private TetrisFigures.TetrisFigure figureType;
 
-[assembly: Guid("082fffda-74a4-402d-896e-157a3ac076d7")]
+        public int[,] Matrix => matrix;
+        public int[] Pos => pos;
+
+        private int[,] points = new int[4, 2];
+
+        public Point Point1 => new Point() { X = points[0, 0] + pos[0], Y = points[0, 1] + pos[1] - SPAWNER_SPACE };
+        public Point Point2 => new Point() { X = points[1, 0] + pos[0], Y = points[1, 1] + pos[1] - SPAWNER_SPACE };
+        public Point Point3 => new Point() { X = points[2, 0] + pos[0], Y = points[2, 1] + pos[1] - SPAWNER_SPACE };
+        public Point Point4 => new Point() { X = points[3, 0] + pos[0], Y = points[3, 1] + pos[1] - SPAWNER_SPACE };
+
+        public Point[] Points => new Point[] {Point1, Point2, Point3, Point4};
+
+        public bool IsEmpty 
+        {
+            get
+            {
+                if (matrix == null)
+                    return true;
+
+                for (int i = 0; i < matrix.GetLength(0); i++)
+                {
+                    for(int j = 0; j < matrix.GetLength(1); j++)
+                    {
+                        if (matrix[i,j] != 0)
+                            return false;
+                    }
+                }
+
+                return true;
+            }
+        }
+
+        public void Spawn()
+        {
+            figureType = (TetrisFigures.TetrisFigure)random.Next(7);
+            rotation = random.Next(4);
+            matrix = TetrisFigures.GetFigure(figureType, rotation);
+
+            CalculateInnerSizeAndOffset();
+            CalculatePoints();
+
+            pos[0] = random.Next(-offset[0], 10 - innerSize[0] - offset[0]);
+            pos[1] = 4 - innerSize[1] - offset[1];
+        }
+
+        public bool Move(MovementType movement, Heap heap)
+        {
+            if (IsEmpty)
+            {
+                Spawn();
+            }
+            if (MovementType.Down == movement)
+            {
+                pos[1]++;
+                if (heap.IsOverlap(this))
+                {
+                    pos[1]--;
+                    heap.Add(this);
+                    Clear();
+                }
+                return false;
+            }
+
+            return true;
+        }
+
+        private void Clear()
+        {
+            for (int i = 0; i < matrix.GetLength(0); i++)
+            {
+                for (int j = 0; j < matrix.GetLength(1); j++)
+                {
+                    matrix[i, j] = 0;
+                }
+            }
+        }
+
+        private void CalculatePoints()
+        {
+            int pointsIndex = 0;
+            for (int i = 0; i < matrix.GetLength(0); i++)
+            {
+                for (int j = 0; j < matrix.GetLength(1); j++)
+                {
+                    if (matrix[i, j] != 0)
+                    {
+                        points[pointsIndex, 0] = j;
+                        points[pointsIndex, 1] = i;
+                        pointsIndex++;
+                    }
+                }
+            }
+        }
+
+        private void CalculateInnerSizeAndOffset()
+        {
+            int startVerticalIndex = int.MaxValue;
+            int endVerticalIndex = int.MinValue;
+            int startHorizontalIndex = int.MaxValue;
+            int endHorizontalIndex = int.MinValue;
+
+            for (int i = 0; i < matrix.GetLength(0); i++)
+            {
+                for (int j = 0; j < matrix.GetLength(1); j++)
+                {
+                    if (matrix[i, j] == 0)
+                    {
+                        continue;
+                    }
+
+                    if (startVerticalIndex > i)
+                    {
+                        startVerticalIndex = i;
+                    }
+                    if (endVerticalIndex < i)
+                    {
+                        endVerticalIndex = i;
+                    }
+                    if (startHorizontalIndex > j)
+                    {
+                        startHorizontalIndex = j;
+                    }
+                    if (endHorizontalIndex < j)
+                    {
+                        endHorizontalIndex = j;
+                    }
+                }
+            }
+
+            innerSize[0] = endHorizontalIndex - startHorizontalIndex + 1;
+            innerSize[1] = endVerticalIndex - startVerticalIndex + 1;
+
+            offset[0] = startHorizontalIndex;
+            offset[1] = startVerticalIndex;
+        }
+    }
+}
