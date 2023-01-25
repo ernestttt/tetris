@@ -30,11 +30,11 @@ public class TetrisApp
             var key = Console.ReadKey();
             if(key.Key == ConsoleKey.LeftArrow)
             {
-                //field.MoveLeft();
+                field.MoveLeft();
             }
             else if(key.Key == ConsoleKey.RightArrow)
             {
-                //field.MoveRight();
+                field.MoveRight();
             }
             else if(key.Key == ConsoleKey.UpArrow)
             {

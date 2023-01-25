@@ -36,25 +36,15 @@ namespace Tetris
 
         public Point[] Points => new Point[] {Point1, Point2, Point3, Point4};
 
-        public bool IsEmpty 
+        private Heap heap;
+
+        public Figure(Heap heap)
         {
-            get
-            {
-                if (matrix == null)
-                    return true;
-
-                for (int i = 0; i < matrix.GetLength(0); i++)
-                {
-                    for(int j = 0; j < matrix.GetLength(1); j++)
-                    {
-                        if (matrix[i,j] != 0)
-                            return false;
-                    }
-                }
-
-                return true;
-            }
+            this.heap = heap;
         }
+
+        private bool isEmpty = true;
+        private bool IsEmpty => isEmpty;
 
         public void Spawn()
         {
@@ -67,9 +57,10 @@ namespace Tetris
 
             pos[0] = random.Next(-offset[0], 10 - innerSize[0] - offset[0]);
             pos[1] = 4 - innerSize[1] - offset[1];
+            isEmpty = false;
         }
 
-        public bool Move(MovementType movement, Heap heap)
+        public bool Move(MovementType movement)
         {
             if (IsEmpty)
             {
@@ -78,13 +69,31 @@ namespace Tetris
             if (MovementType.Down == movement)
             {
                 pos[1]++;
-                if (heap.IsOverlap(this))
+                if (heap.IsOverlap(this, movement))
                 {
                     pos[1]--;
                     heap.Add(this);
                     Clear();
+                    return false;
                 }
-                return false;
+            }
+            else if(MovementType.Left== movement)
+            {
+                pos[0]--;
+                if (heap.IsOverlap(this, movement))
+                {
+                    pos[0]++;
+                    return false;
+                }
+            }
+            else if(MovementType.Right== movement)
+            {
+                pos[0]++;
+                if (heap.IsOverlap(this, movement))
+                {
+                    pos[0]--;
+                    return false;
+                }
             }
 
             return true;
@@ -92,13 +101,7 @@ namespace Tetris
 
         private void Clear()
         {
-            for (int i = 0; i < matrix.GetLength(0); i++)
-            {
-                for (int j = 0; j < matrix.GetLength(1); j++)
-                {
-                    matrix[i, j] = 0;
-                }
-            }
+            isEmpty = true;
         }
 
         private void CalculatePoints()

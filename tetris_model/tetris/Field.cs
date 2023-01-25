@@ -9,23 +9,31 @@ namespace Tetris
     public class Field
     {
         public byte[,] ViewMatrix { get; init; }
-
-        private Figure figure = new Figure();
-
+        private Figure figure;
         private Heap heap= new Heap();
 
         public Field()
         {
             ViewMatrix = new byte[20, 10];
-        }
+            figure = new Figure(heap);
+    }
 
         public void Step()
         {
             ClearViewMatrix();
-            figure.Move(MovementType.Down, heap);
+            figure.Move(MovementType.Down);
             UpdateViewMatrix();
         }
 
+        public void MoveLeft()
+        {
+            figure.Move(MovementType.Left);
+        }
+
+        public void MoveRight() 
+        {
+            figure.Move(MovementType.Right);
+        }
 
         private void ClearViewMatrix()
         {
