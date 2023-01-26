@@ -129,8 +129,8 @@ namespace Tetris
             Point offset = heap.GetOverBorderOffset(this);
             if(offset.X != 0 || offset.Y != 0)
             {
-                pos[0] += offset.X;
-                pos[1] += offset.Y;
+                pos[0] -= offset.X;
+                pos[1] -= offset.Y;
 
                 if (heap.IsOverlap(this))
                 {
