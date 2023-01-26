@@ -39,10 +39,12 @@ namespace Tetris
         private Heap heap;
 
         private bool isEmpty = true;
-        private bool IsEmpty => isEmpty;
+        public bool IsEmpty => isEmpty;
 
         private int currentRotation;
         private TetrisFigures.TetrisFigure currentFigure;
+
+        public event Action GameOver;
 
         public Figure(Heap heap)
         {
@@ -79,6 +81,13 @@ namespace Tetris
                     pos[1]--;
                     heap.Add(this);
                     Clear();
+
+                    // check for game over
+                    if(Points.OrderBy(a => a.Y).First().Y < 0)
+                    {
+                        GameOver();
+                    }    
+
                     return false;
                 }
             }

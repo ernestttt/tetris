@@ -16,7 +16,7 @@ public class TetrisApp
 
         while (true)
         {
-            field.Step();
+            field.MoveDown();
             view.Draw(field.ViewMatrix);
             Task.Delay(delay).Wait();
         }
@@ -26,7 +26,7 @@ public class TetrisApp
     {
         while(true)
         {
-            await Task.Delay(delay);
+            await Task.Delay(1000/60);
             var key = Console.ReadKey();
             if(key.Key == ConsoleKey.LeftArrow)
             {
@@ -42,7 +42,7 @@ public class TetrisApp
             }
             else if(key.Key == ConsoleKey.DownArrow)
             {
-
+                field.MoveDown();
             }
         }  
     }

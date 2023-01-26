@@ -17,6 +17,7 @@ namespace Tetris
             ViewMatrix = new byte[20, 10];
             figure = new Figure(heap);
             heap.FigureAdded += CheckRows;
+            figure.GameOver += GameOver;
         }
 
         public void CheckRows()
@@ -24,11 +25,16 @@ namespace Tetris
             heap.CompleteRows();
         }
 
-        public void Step()
+        public void MoveDown()
         {
             ClearViewMatrix();
             figure.Move(MovementType.Down);
             UpdateViewMatrix();
+        }
+
+        public void GameOver()
+        {
+
         }
 
         public void MoveLeft()
