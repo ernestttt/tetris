@@ -14,6 +14,7 @@ namespace Tetris
         public int[,] Matrix => matrix;
 
         public event Action FigureAdded;
+        public event Action<int> CompletedRows;
 
         public bool IsOverlap(Figure figure)
         {
@@ -77,7 +78,12 @@ namespace Tetris
 
         public void CompleteRows()
         {
-            CompleteRows(GetCompletedRows());
+            int[] completedRows = GetCompletedRows();
+            if(completedRows.Length > 0)
+            {
+                CompletedRows?.Invoke(completedRows.Length);
+            }
+            CompleteRows(completedRows);
         }
 
         public int[] GetCompletedRows()

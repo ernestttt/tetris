@@ -12,12 +12,20 @@ namespace Tetris
         private Figure figure;
         private Heap heap = new Heap();
 
+        public int Score { get; private set; } = 0;
+
         public Field()
         {
             ViewMatrix = new byte[20, 10];
             figure = new Figure(heap);
             heap.FigureAdded += CheckRows;
             figure.GameOver += GameOver;
+            heap.CompletedRows += UpdateScore;
+        }
+
+        public void UpdateScore(int rows)
+        {
+            Score += rows * 100;
         }
 
         public void CheckRows()

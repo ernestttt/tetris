@@ -4,7 +4,7 @@ using System.Threading;
 
 public class TetrisApp
 {
-    private const int delay = 1000/10;
+    private const int delay = 1000/5;
 
     private static void Main()
     {
@@ -18,6 +18,7 @@ public class TetrisApp
         {
             field.MoveDown();
             view.Draw(field.ViewMatrix);
+            Console.WriteLine("\n\n\n{0}", field.Score);
             Task.Delay(delay).Wait();
         }
     }
@@ -26,7 +27,7 @@ public class TetrisApp
     {
         while(true)
         {
-            await Task.Delay(1000/60);
+            await Task.Delay(1000/120);
             var key = Console.ReadKey();
             if(key.Key == ConsoleKey.LeftArrow)
             {
