@@ -5,27 +5,36 @@ using System.Threading;
 public class TetrisApp
 {
     private const int delay = 1000/5;
+    private static bool isPlaying = false;
 
     private static void Main()
     {
         Field field = new Field();
         ConsoleView view = new ConsoleView();
 
-        _ = ListenToInput(field);
         
 
-        while (true)
+        field.GameOverEvent += () => isPlaying = false;
+
+        isPlaying = true;
+
+        _ = ListenToInput(field);
+
+        while (isPlaying)
         {
             field.MoveDown();
             view.Draw(field.ViewMatrix);
-            Console.WriteLine("\n\n\n{0}", field.Score);
+            Console.WriteLine("\n\n\n{0}", field.CompletedRows);
             Task.Delay(delay).Wait();
         }
+
+        Console.Clear();
+        Console.WriteLine("GAME OVER");
     }
 
     private async static Task ListenToInput(Field field)
     {
-        while(true)
+        while(isPlaying)
         {
             await Task.Delay(1000/120);
             var key = Console.ReadKey();

@@ -12,7 +12,9 @@ namespace Tetris
         private Figure figure;
         private Heap heap = new Heap();
 
-        public int Score { get; private set; } = 0;
+        public int CompletedRows { get; private set; } = 0;
+
+        public event Action GameOverEvent;
 
         public Field()
         {
@@ -25,7 +27,7 @@ namespace Tetris
 
         public void UpdateScore(int rows)
         {
-            Score += rows * 100;
+            CompletedRows += rows;
         }
 
         public void CheckRows()
@@ -40,9 +42,9 @@ namespace Tetris
             UpdateViewMatrix();
         }
 
-        public void GameOver()
+        private void GameOver()
         {
-
+            GameOverEvent?.Invoke();
         }
 
         public void MoveLeft()
