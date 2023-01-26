@@ -38,19 +38,24 @@ namespace Tetris
 
         private Heap heap;
 
+        private bool isEmpty = true;
+        private bool IsEmpty => isEmpty;
+
+        private int currentRotation;
+        private TetrisFigures.TetrisFigure currentFigure;
+
         public Figure(Heap heap)
         {
             this.heap = heap;
         }
 
-        private bool isEmpty = true;
-        private bool IsEmpty => isEmpty;
+        
 
         public void Spawn()
         {
-            figureType = (TetrisFigures.TetrisFigure)random.Next(7);
-            rotation = random.Next(4);
-            matrix = TetrisFigures.GetFigure(figureType, rotation);
+            currentFigure = (TetrisFigures.TetrisFigure)random.Next(7);
+            currentRotation = random.Next(4);
+            matrix = TetrisFigures.GetFigure(currentFigure, rotation);
 
             CalculateInnerSizeAndOffset();
             CalculatePoints();
@@ -69,7 +74,7 @@ namespace Tetris
             if (MovementType.Down == movement)
             {
                 pos[1]++;
-                if (heap.IsOverlap(this, movement))
+                if (heap.IsOverlap(this) || heap.GetOverBorderOffset(this).Y != 0)
                 {
                     pos[1]--;
                     heap.Add(this);
@@ -77,21 +82,63 @@ namespace Tetris
                     return false;
                 }
             }
-            else if(MovementType.Left== movement)
+            else if(MovementType.Left == movement)
             {
                 pos[0]--;
-                if (heap.IsOverlap(this, movement))
+                if (heap.IsOverlapOrOverBorder(this))
                 {
                     pos[0]++;
                     return false;
                 }
             }
-            else if(MovementType.Right== movement)
+            else if(MovementType.Right == movement)
             {
                 pos[0]++;
-                if (heap.IsOverlap(this, movement))
+                if (heap.IsOverlapOrOverBorder(this))
                 {
                     pos[0]--;
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        public bool Rotate()
+        {
+            // remember old state
+            int[,] oldMatrix = matrix;
+            int oldRotation = currentRotation;
+
+            currentRotation++;
+            currentRotation %= 4;
+            matrix = TetrisFigures.GetFigure(currentFigure, currentRotation);
+            CalculateInnerSizeAndOffset();
+            CalculatePoints();
+
+            if(heap.IsOverlap(this))
+            {
+                matrix = oldMatrix;
+                currentRotation = oldRotation;
+                CalculateInnerSizeAndOffset();
+                CalculatePoints();
+
+                return false;
+            }
+
+            Point offset = heap.GetOverBorderOffset(this);
+            if(offset.X != 0 || offset.Y != 0)
+            {
+                pos[0] += offset.X;
+                pos[1] += offset.Y;
+
+                if (heap.IsOverlap(this))
+                {
+                    matrix = oldMatrix;
+                    currentRotation = oldRotation;
+                    CalculateInnerSizeAndOffset();
+                    CalculatePoints();
+
                     return false;
                 }
             }

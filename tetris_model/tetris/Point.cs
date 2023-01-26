@@ -8,7 +8,7 @@ namespace Tetris
 {
     internal struct Point
     {
-        public int X { get; init; }
-        public int Y { get; init; }
+        public int X { get; set; }
+        public int Y { get; set; }
     }
 }

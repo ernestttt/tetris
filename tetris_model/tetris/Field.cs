@@ -35,6 +35,11 @@ namespace Tetris
             figure.Move(MovementType.Right);
         }
 
+        public void Rotate()
+        {
+            figure.Rotate();
+        }
+
         private void ClearViewMatrix()
         {
             for (int i = 0; i < ViewMatrix.GetLength(0); i++)

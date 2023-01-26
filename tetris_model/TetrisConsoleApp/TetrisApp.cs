@@ -4,7 +4,7 @@ using System.Threading;
 
 public class TetrisApp
 {
-    private const int delay = 1000/30;
+    private const int delay = 1000/10;
 
     private static void Main()
     {
@@ -38,7 +38,7 @@ public class TetrisApp
             }
             else if(key.Key == ConsoleKey.UpArrow)
             {
-
+                field.Rotate();
             }
             else if(key.Key == ConsoleKey.DownArrow)
             {
