@@ -10,13 +10,19 @@ namespace Tetris
     {
         public byte[,] ViewMatrix { get; init; }
         private Figure figure;
-        private Heap heap= new Heap();
+        private Heap heap = new Heap();
 
         public Field()
         {
             ViewMatrix = new byte[20, 10];
             figure = new Figure(heap);
-    }
+            heap.FigureAdded += CheckRows;
+        }
+
+        public void CheckRows()
+        {
+            heap.CompleteRows();
+        }
 
         public void Step()
         {

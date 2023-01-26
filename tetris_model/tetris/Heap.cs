@@ -13,6 +13,8 @@ namespace Tetris
 
         public int[,] Matrix => matrix;
 
+        public event Action FigureAdded;
+
         public bool IsOverlap(Figure figure)
         {
             foreach (Point point in figure.Points)
@@ -69,6 +71,73 @@ namespace Tetris
                 {
                     matrix[point.Y, point.X] = 1;
                 }
+            }
+            FigureAdded?.Invoke();
+        }
+
+        public void CompleteRows()
+        {
+            CompleteRows(GetCompletedRows());
+        }
+
+        public int[] GetCompletedRows()
+        {
+            bool rowCompleted = false;
+            bool emptyRow = false;
+
+            List<int> completedRows = new List<int>();
+
+            for(int i = matrix.GetLength(0) - 1; i >= 0; i--)
+            {
+                emptyRow = true;
+                rowCompleted = true;
+                for (int j = 0; j < matrix.GetLength(1); j++)
+                {
+                    if (matrix[i,j] != 0)
+                    {
+                        emptyRow = false;
+                    }
+                    else
+                    {
+                        rowCompleted = false;
+                    }
+                }
+
+                if (emptyRow)
+                {
+                    break;
+                }
+
+                if(rowCompleted)
+                {
+                    completedRows.Add(i);
+                }
+            }
+
+            return completedRows.ToArray();
+        }
+
+        public void CompleteRows(int[] rows)
+        {
+            for(int i = 0; i < rows.Length; i++)
+            {
+                CompleteRow(rows[i] - i);
+            }
+        }
+
+        public void CompleteRow(int row)
+        {
+            for(int i = row; i > 0; i--)
+            {
+                for(int j = 0; j < matrix.GetLength(1); j++)
+                {
+                    matrix[i,j] = matrix[i-1,j];
+                }
+            }
+
+            for(int i = 0; i < matrix.GetLength(1); i++)
+            {
+                matrix[0, i] = 0;
             }
         }
     }
