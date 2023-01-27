@@ -7,7 +7,9 @@
             return figures[figure][rotation];
         }
 
+
         private static readonly Dictionary<TetrisFigure, int[][,]> figures;
+
 
         static TetrisFigures()
         {
@@ -64,6 +66,7 @@
                 }
             };
         }
+
 
         private static readonly int[,] square = new int[,]
         {

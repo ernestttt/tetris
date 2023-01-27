@@ -3,58 +3,64 @@
     public class Field
     {
         public int CompletedRows { get; private set; } = 0;
+
         public byte[,] ViewMatrix { get; init; }
+
         public event Action? GameOverEvent;
+
 
         public Field()
         {
             ViewMatrix = new byte[20, 10];
             figure = new Figure(heap);
-            heap.FigureAdded += CheckRows;
-            figure.GameOver += GameOver;
-            heap.CompletedRows += UpdateScore;
+
+            figure.CantMoveOnSpawnEvent += () => GameOverEvent?.Invoke();
+            heap.CompletedRowsEvent += (rows) => CompletedRows += rows;
         }
+
 
         public void MoveDown()
         {
-            figure.Move(MovementType.Down);
-            UpdateViewMatrix();
+            Move(MovementType.Down);
         }
+
 
         public void MoveLeft()
         {
-            figure.Move(MovementType.Left);
-            UpdateViewMatrix();
+            Move(MovementType.Left);
         }
 
         public void MoveRight()
         {
-            figure.Move(MovementType.Right);
-            UpdateViewMatrix();
+            Move(MovementType.Right);
         }
+
 
         public void Rotate()
         {
             figure.Rotate();
         }
 
-        private Figure figure;
-        private Heap heap = new Heap();
 
-        private void UpdateScore(int rows)
+        private readonly Figure figure;
+
+        private readonly Heap heap = new();
+
+
+        private void Move(MovementType movementType)
         {
-            CompletedRows += rows;
+            figure.Move(movementType);
+            UpdateViewMatrix();
         }
 
-        private void CheckRows()
+
+        private void UpdateViewMatrix()
         {
-            heap.CompleteRows();
+            ClearViewMatrix();
+            AddFigureToMatrix();
+            AddHeapToViewMatrix();
         }
 
-        private void GameOver()
-        {
-            GameOverEvent?.Invoke();
-        }
 
         private void ClearViewMatrix()
         {
@@ -67,26 +73,31 @@
             }
         }
 
-        private void UpdateViewMatrix()
+
+        private void AddFigureToMatrix()
         {
-            ClearViewMatrix();
-            // figure
-            foreach (Point point in figure.Points)
+            if (!figure.IsEmpty)
             {
-                if (point.X >= 0 && point.X < ViewMatrix.GetLength(1) && point.Y >= 0 && point.Y < ViewMatrix.GetLength(0))
+                foreach (Point point in figure.Points)
                 {
-                    ViewMatrix[point.Y, point.X] = 1;
+                    if (point.X >= 0 && point.X < ViewMatrix.GetLength(1) && point.Y >= 0 && point.Y < ViewMatrix.GetLength(0))
+                    {
+                        ViewMatrix[point.Y, point.X] = 1;
+                    }
                 }
             }
+        }
 
-            // heap
+
+        private void AddHeapToViewMatrix()
+        {
             for (int i = 0; i < ViewMatrix.GetLength(0); i++)
             {
                 for (int j = 0; j < ViewMatrix.GetLength(1); j++)
                 {
-                    if (heap.Matrix[i,j] != 0)
+                    if (heap.Matrix[i, j] != 0)
                     {
-                        ViewMatrix[i,j] = 1;
+                        ViewMatrix[i, j] = 1;
                     }
                 }
             }

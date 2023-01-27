@@ -7,6 +7,7 @@
         Right,
     }
 
+
     internal enum TetrisFigure
     {
         Square = 0,
