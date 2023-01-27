@@ -1,8 +1,6 @@
 ﻿using Tetris;
-using System.Threading;
 
-
-public class TetrisApp
+internal class TetrisApp
 {
     private const int delay = 1000/5;
     private static bool isPlaying = false;
@@ -11,8 +9,6 @@ public class TetrisApp
     {
         Field field = new Field();
         ConsoleView view = new ConsoleView();
-
-        
 
         field.GameOverEvent += () => isPlaying = false;
 
@@ -36,7 +32,7 @@ public class TetrisApp
     {
         while(isPlaying)
         {
-            await Task.Delay(1000/120);
+            await Task.Delay(1000/250);
             var key = Console.ReadKey();
             if(key.Key == ConsoleKey.LeftArrow)
             {

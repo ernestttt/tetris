@@ -1,20 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Tetris
+﻿namespace Tetris
 {
     public class Field
     {
-        public byte[,] ViewMatrix { get; init; }
-        private Figure figure;
-        private Heap heap = new Heap();
-
         public int CompletedRows { get; private set; } = 0;
-
-        public event Action GameOverEvent;
+        public byte[,] ViewMatrix { get; init; }
+        public event Action? GameOverEvent;
 
         public Field()
         {
@@ -25,41 +15,45 @@ namespace Tetris
             heap.CompletedRows += UpdateScore;
         }
 
-        public void UpdateScore(int rows)
-        {
-            CompletedRows += rows;
-        }
-
-        public void CheckRows()
-        {
-            heap.CompleteRows();
-        }
-
         public void MoveDown()
         {
-            ClearViewMatrix();
             figure.Move(MovementType.Down);
             UpdateViewMatrix();
-        }
-
-        private void GameOver()
-        {
-            GameOverEvent?.Invoke();
         }
 
         public void MoveLeft()
         {
             figure.Move(MovementType.Left);
+            UpdateViewMatrix();
         }
 
-        public void MoveRight() 
+        public void MoveRight()
         {
             figure.Move(MovementType.Right);
+            UpdateViewMatrix();
         }
 
         public void Rotate()
         {
             figure.Rotate();
+        }
+
+        private Figure figure;
+        private Heap heap = new Heap();
+
+        private void UpdateScore(int rows)
+        {
+            CompletedRows += rows;
+        }
+
+        private void CheckRows()
+        {
+            heap.CompleteRows();
+        }
+
+        private void GameOver()
+        {
+            GameOverEvent?.Invoke();
         }
 
         private void ClearViewMatrix()
@@ -75,8 +69,9 @@ namespace Tetris
 
         private void UpdateViewMatrix()
         {
+            ClearViewMatrix();
             // figure
-            foreach(Point point in figure.Points)
+            foreach (Point point in figure.Points)
             {
                 if (point.X >= 0 && point.X < ViewMatrix.GetLength(1) && point.Y >= 0 && point.Y < ViewMatrix.GetLength(0))
                 {

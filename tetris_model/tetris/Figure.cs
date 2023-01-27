@@ -1,152 +1,107 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-
 namespace Tetris
 {
     internal class Figure
     {
-        private const int SPAWNER_SPACE = 4;
+        internal int[,] Matrix
+        {
+            get
+            {
+                return matrix;
+            }
+            private set
+            {
+                matrix = value;
+                CalculatePoints();
+            }
+        }
+        
+        internal int[] Pos => pos;
 
+        internal Point[] Points => new Point[] { Point1, Point2, Point3, Point4 };
 
-        private Random random = new Random();
-        private int[] pos = new int[2] { 0, 0 };
-        private int[] offset = new int[2] { 0, 0 };
-        private int[] innerSize = new int[2] { 0, 0 };
+        internal int TopmostY => Points.OrderBy(a => a.Y).First().Y;
+        internal int LowestY => Points.OrderBy(a => a.Y).Last().Y;
+        internal int LeftmostX => Points.OrderBy(a => a.X).First().X;
+        internal int RightmostX => Points.OrderBy(a => a.X).Last().X;
 
-        private int[,] matrix;
+        internal event Action? GameOver;
 
-        private int rotation;
-        private TetrisFigures.TetrisFigure figureType;
-
-        public int[,] Matrix => matrix;
-        public int[] Pos => pos;
-
-        private int[,] points = new int[4, 2];
-
-        public Point Point1 => new Point() { X = points[0, 0] + pos[0], Y = points[0, 1] + pos[1] - SPAWNER_SPACE };
-        public Point Point2 => new Point() { X = points[1, 0] + pos[0], Y = points[1, 1] + pos[1] - SPAWNER_SPACE };
-        public Point Point3 => new Point() { X = points[2, 0] + pos[0], Y = points[2, 1] + pos[1] - SPAWNER_SPACE };
-        public Point Point4 => new Point() { X = points[3, 0] + pos[0], Y = points[3, 1] + pos[1] - SPAWNER_SPACE };
-
-        public Point[] Points => new Point[] {Point1, Point2, Point3, Point4};
-
-        private Heap heap;
-
-        private bool isEmpty = true;
-        public bool IsEmpty => isEmpty;
-
-        private int currentRotation;
-        private TetrisFigures.TetrisFigure currentFigure;
-
-        public event Action GameOver;
-
-        public Figure(Heap heap)
+        internal Figure(Heap heap)
         {
             this.heap = heap;
         }
 
-        
-
-        public void Spawn()
+        internal void Spawn()
         {
-            currentFigure = (TetrisFigures.TetrisFigure)random.Next(7);
+            currentFigure = (TetrisFigure)random.Next(7);
             currentRotation = random.Next(4);
-            matrix = TetrisFigures.GetFigure(currentFigure, rotation);
+            Matrix = TetrisFigures.GetFigure(currentFigure, currentRotation);
 
-            CalculateInnerSizeAndOffset();
-            CalculatePoints();
+            // place figure in random position
+            pos[0] = random.Next(0, SPAWNER_WIDTH - innerSize[0]) - offset[0];
+            pos[1] = SPAWNER_HEIGHT - innerSize[1] - offset[1];
 
-            pos[0] = random.Next(-offset[0], 10 - innerSize[0] - offset[0]);
-            pos[1] = 4 - innerSize[1] - offset[1];
             isEmpty = false;
         }
 
-        public bool Move(MovementType movement)
+        internal bool Move(MovementType movement)
         {
-            if (IsEmpty)
+            if (isEmpty)
             {
                 Spawn();
             }
-            if (MovementType.Down == movement)
+
+            int posIndex = movement == MovementType.Down ? 1 : 0;
+            int delta = movement == MovementType.Left ? -1 : 1;
+            bool result = true;
+
+            pos[posIndex] += delta;
+
+            if (heap.IsOverlapOrOverBorder(this))
             {
-                pos[1]++;
-                if (heap.IsOverlap(this) || heap.GetOverBorderOffset(this).Y != 0)
+                pos[posIndex] -= delta;
+                result = false;
+
+                // figure touch the heap 
+                if (movement == MovementType.Down)
                 {
-                    pos[1]--;
+                    // check for game over
+                    if (TopmostY < 0)
+                    {
+                        GameOver?.Invoke();
+                    }
+
                     heap.Add(this);
                     Clear();
-
-                    // check for game over
-                    if(Points.OrderBy(a => a.Y).First().Y < 0)
-                    {
-                        GameOver();
-                    }    
-
-                    return false;
-                }
-            }
-            else if(MovementType.Left == movement)
-            {
-                pos[0]--;
-                if (heap.IsOverlapOrOverBorder(this))
-                {
-                    pos[0]++;
-                    return false;
-                }
-            }
-            else if(MovementType.Right == movement)
-            {
-                pos[0]++;
-                if (heap.IsOverlapOrOverBorder(this))
-                {
-                    pos[0]--;
-                    return false;
-                }
+                }  
             }
 
-            return true;
+            return result;
         }
 
-        public bool Rotate()
+        internal bool Rotate()
         {
             // remember old state
-            int[,] oldMatrix = matrix;
+            int[,] oldMatrix = Matrix;
             int oldRotation = currentRotation;
 
             currentRotation++;
             currentRotation %= 4;
-            matrix = TetrisFigures.GetFigure(currentFigure, currentRotation);
-            CalculateInnerSizeAndOffset();
-            CalculatePoints();
 
-            if(heap.IsOverlap(this))
-            {
-                matrix = oldMatrix;
-                currentRotation = oldRotation;
-                CalculateInnerSizeAndOffset();
-                CalculatePoints();
-
-                return false;
-            }
+            Matrix = TetrisFigures.GetFigure(currentFigure, currentRotation);
 
             Point offset = heap.GetOverBorderOffset(this);
-            if(offset.X != 0 || offset.Y != 0)
+            if (offset.X != 0 || offset.Y != 0)
             {
+                // try to adjust position
                 pos[0] -= offset.X;
                 pos[1] -= offset.Y;
 
+                // figure can't be rotated
                 if (heap.IsOverlap(this))
                 {
-                    matrix = oldMatrix;
+                    Matrix = oldMatrix;
                     currentRotation = oldRotation;
-                    CalculateInnerSizeAndOffset();
-                    CalculatePoints();
 
                     return false;
                 }
@@ -154,6 +109,30 @@ namespace Tetris
 
             return true;
         }
+
+        // used for spawn
+        private Random random = new Random();
+        private const int SPAWNER_HEIGHT = 4;
+        private const int SPAWNER_WIDTH = 10;
+
+        private int[] pos = new int[2] { 0, 0 };
+        private int[] offset = new int[2] { 0, 0 };
+        private int[] innerSize = new int[2] { 0, 0 };
+
+        private int[,] matrix = new int[4,4];
+        // points with figure inner indexis, [i,0] - x, [i,1] - y
+        private int[,] points = new int[4, 2];
+
+        private Point Point1 => new Point() { X = points[0, 0] + pos[0], Y = points[0, 1] + pos[1] - SPAWNER_HEIGHT };
+        private Point Point2 => new Point() { X = points[1, 0] + pos[0], Y = points[1, 1] + pos[1] - SPAWNER_HEIGHT };
+        private Point Point3 => new Point() { X = points[2, 0] + pos[0], Y = points[2, 1] + pos[1] - SPAWNER_HEIGHT };
+        private Point Point4 => new Point() { X = points[3, 0] + pos[0], Y = points[3, 1] + pos[1] - SPAWNER_HEIGHT };
+
+        private Heap heap;
+
+        private bool isEmpty = true;
+        private int currentRotation;
+        private TetrisFigure currentFigure;
 
         private void Clear()
         {
@@ -162,12 +141,14 @@ namespace Tetris
 
         private void CalculatePoints()
         {
+            CalculateInnerSizeAndOffset();
+
             int pointsIndex = 0;
-            for (int i = 0; i < matrix.GetLength(0); i++)
+            for (int i = 0; i < Matrix.GetLength(0); i++)
             {
-                for (int j = 0; j < matrix.GetLength(1); j++)
+                for (int j = 0; j < Matrix.GetLength(1); j++)
                 {
-                    if (matrix[i, j] != 0)
+                    if (Matrix[i, j] != 0)
                     {
                         points[pointsIndex, 0] = j;
                         points[pointsIndex, 1] = i;
@@ -184,11 +165,11 @@ namespace Tetris
             int startHorizontalIndex = int.MaxValue;
             int endHorizontalIndex = int.MinValue;
 
-            for (int i = 0; i < matrix.GetLength(0); i++)
+            for (int i = 0; i < Matrix.GetLength(0); i++)
             {
-                for (int j = 0; j < matrix.GetLength(1); j++)
+                for (int j = 0; j < Matrix.GetLength(1); j++)
                 {
-                    if (matrix[i, j] == 0)
+                    if (Matrix[i, j] == 0)
                     {
                         continue;
                     }
