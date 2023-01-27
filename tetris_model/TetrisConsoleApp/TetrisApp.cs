@@ -7,7 +7,7 @@ internal class TetrisApp
 
     private static void Main()
     {
-        Field field = new Field();
+        Tetris.TetrisCore field = new Tetris.TetrisCore();
         ConsoleView view = new ConsoleView();
 
         field.GameOverEvent += () => isPlaying = false;
@@ -28,7 +28,7 @@ internal class TetrisApp
         Console.WriteLine("GAME OVER");
     }
 
-    private async static Task ListenToInput(Field field)
+    private async static Task ListenToInput(Tetris.TetrisCore field)
     {
         while(isPlaying)
         {

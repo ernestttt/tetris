@@ -7,6 +7,8 @@ D:\unity_projects\simple\tetris_model\tetris\obj\Debug\net6.0\tetris.AssemblyInf
 D:\unity_projects\simple\tetris_model\tetris\obj\Debug\net6.0\tetris.AssemblyInfo.cs
 D:\unity_projects\simple\tetris_model\tetris\obj\Debug\net6.0\tetris.csproj.CoreCompileInputs.cache
 D:\unity_projects\simple\tetris_model\tetris\obj\Debug\net6.0\tetris.dll
-D:\unity_projects\simple\tetris_model\tetris\obj\Debug\net6.0\refint\tetris.dll
 D:\unity_projects\simple\tetris_model\tetris\obj\Debug\net6.0\tetris.pdb
-D:\unity_projects\simple\tetris_model\tetris\obj\Debug\net6.0\ref\tetris.dll
+D:\unity_projects\simple\tetris_model\tetris\bin\Debug\net6.0\Tetris.xml
+D:\unity_projects\simple\tetris_model\tetris\obj\Debug\net6.0\refint\Tetris.dll
+D:\unity_projects\simple\tetris_model\tetris\obj\Debug\net6.0\Tetris.xml
+D:\unity_projects\simple\tetris_model\tetris\obj\Debug\net6.0\ref\Tetris.dll

@@ -1,4 +1,5 @@
-﻿using static Tetris.Figure;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Tetris
 {
@@ -6,10 +7,10 @@ namespace Tetris
     {
         public int[,] Matrix => matrix;
 
-        public event Action<int>? CompletedRowsEvent;
+        public event Action<int> CompletedRowsEvent;
 
 
-        public bool IsOverlapOrOverBorder(Point[] points, ExtremePoints extremePoints)
+        public bool IsOverlapOrOverBorder(Point[] points, Figure.ExtremePoints extremePoints)
         {
             Point offsetPoint = GetOverBorderOffset(extremePoints);
             bool isOverBorder = offsetPoint.X != 0 || offsetPoint.Y != 0;
@@ -32,24 +33,27 @@ namespace Tetris
         }
 
 
-        public Point GetOverBorderOffset(ExtremePoints extremePoints)
+        public Point GetOverBorderOffset(Figure.ExtremePoints extremePoints)
         {
-            Point offsetPoint = new Point();
+            int offsetX = 0;
+            int offsetY = 0;
 
             if (extremePoints.LeftmostX < 0)
             {
-                offsetPoint.X = extremePoints.LeftmostX;
+                offsetX = extremePoints.LeftmostX;
             }
 
             if (extremePoints.RightmostX >= matrix.GetLength(1))
             {
-                offsetPoint.X = matrix.GetLength(1) - 1 - extremePoints.RightmostX;
+                offsetX = matrix.GetLength(1) - 1 - extremePoints.RightmostX;
             }
 
             if (extremePoints.LowestY >= matrix.GetLength(0))
             {
-                offsetPoint.Y = matrix.GetLength(0) - 1 - extremePoints.LowestY;
+                offsetY = matrix.GetLength(0) - 1 - extremePoints.LowestY;
             }
+
+            Point offsetPoint = new Point(offsetX, offsetY);
 
             return offsetPoint;
         }

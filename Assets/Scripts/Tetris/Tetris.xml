@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Tetris</name>
+    </assembly>
+    <members>
+        <member name="T:Tetris.TetrisCore">
+            <summary>
+            Main class with tetris logic
+            </summary>
+        </member>
+        <member name="P:Tetris.TetrisCore.CompletedRows">
+            <summary>
+            Number of completed rows
+            </summary>
+        </member>
+        <member name="P:Tetris.TetrisCore.ViewMatrix">
+            <summary>
+            20x10 tetrix matrix
+            </summary>
+        </member>
+        <member name="E:Tetris.TetrisCore.GameOverEvent">
+            <summary>
+            invoked when figure can't move down after spawn
+            </summary>
+        </member>
+        <member name="M:Tetris.TetrisCore.MoveDown">
+            <summary>
+            Move figure down
+            </summary>
+        </member>
+        <member name="M:Tetris.TetrisCore.MoveLeft">
+            <summary>
+            Move figure to left side
+            </summary>
+        </member>
+        <member name="M:Tetris.TetrisCore.MoveRight">
+            <summary>
+            Move figure to right side
+            </summary>
+        </member>
+        <member name="M:Tetris.TetrisCore.Rotate">
+            <summary>
+            try to rotate figure, if it impossible, figure will stay in old position
+            </summary>
+        </member>
+    </members>
+</doc>

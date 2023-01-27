@@ -1,3 +1,6 @@
+using System;
+using System.Linq;
+
 namespace Tetris
 {
     internal class Figure
@@ -27,19 +30,13 @@ namespace Tetris
             get
             {
                 var orderedByX = Points.OrderBy(a => a.X).Select(a => a.X);
-                var orderedByY = Points.OrderBy(a => a.Y).Select(a => a.Y); 
+                var orderedByY = Points.OrderBy(a => a.Y).Select(a => a.Y);
 
-                return new ExtremePoints()
-                {
-                    TopmostY = orderedByY.First(),
-                    LowestY = orderedByY.Last(),
-                    LeftmostX = orderedByX.First(),
-                    RightmostX = orderedByX.Last(),
-                };
+                return new ExtremePoints(orderedByY.First(), orderedByY.Last(), orderedByX.First(), orderedByX.Last());
             }
         }
 
-        internal event Action? CantMoveOnSpawnEvent;
+        internal event Action CantMoveOnSpawnEvent;
 
 
         internal Figure(Heap heap)
@@ -132,7 +129,7 @@ namespace Tetris
 
 
         // used in spawn
-        private readonly Random random = new Random();
+        private readonly System.Random random = new System.Random();
 
         private const int SPAWNER_HEIGHT = 4;
         private const int SPAWNER_WIDTH = 10;
@@ -158,10 +155,10 @@ namespace Tetris
         private int currentRotation;
 
         // 4 points of figure
-        private Point Point1 => new Point() { X = points[0, 0] + pos[0], Y = points[0, 1] + pos[1] - SPAWNER_HEIGHT };
-        private Point Point2 => new Point() { X = points[1, 0] + pos[0], Y = points[1, 1] + pos[1] - SPAWNER_HEIGHT };
-        private Point Point3 => new Point() { X = points[2, 0] + pos[0], Y = points[2, 1] + pos[1] - SPAWNER_HEIGHT };
-        private Point Point4 => new Point() { X = points[3, 0] + pos[0], Y = points[3, 1] + pos[1] - SPAWNER_HEIGHT };
+        private Point Point1 => new Point(points[0, 0] + pos[0], points[0, 1] + pos[1] - SPAWNER_HEIGHT);
+        private Point Point2 => new Point(points[1, 0] + pos[0], points[1, 1] + pos[1] - SPAWNER_HEIGHT);
+        private Point Point3 => new Point(points[2, 0] + pos[0], points[2, 1] + pos[1] - SPAWNER_HEIGHT);
+        private Point Point4 => new Point(points[3, 0] + pos[0], points[3, 1] + pos[1] - SPAWNER_HEIGHT);
 
 
         private void Clear()
@@ -234,10 +231,19 @@ namespace Tetris
 
         internal struct ExtremePoints
         {
-            internal int TopmostY { get; init; }
-            internal int LowestY { get; init; }
-            internal int LeftmostX { get; init; }
-            internal int RightmostX { get; init; }
+            internal int TopmostY { get; private set; }
+            internal int LowestY { get; private set; }
+            internal int LeftmostX { get; private set; }
+            internal int RightmostX { get; private set; }
+
+
+            public ExtremePoints(int topmostY, int lowestY, int leftmostY, int rightmostX)
+            {
+                TopmostY = topmostY;
+                LowestY = lowestY;
+                LeftmostX = leftmostY;
+                RightmostX = rightmostX;
+            }
         }
     }
 }
