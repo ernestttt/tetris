@@ -25,7 +25,7 @@ public class TetrisManager : MonoBehaviour
     private List<Transform> activePoints = new List<Transform>();
 
     private bool isPlaying;
-    
+    private float buttonPressedInterval;
 
     private void Start()
     {
@@ -69,22 +69,28 @@ public class TetrisManager : MonoBehaviour
 
     private void CheckInput()
     {
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        if (Time.time < buttonPressedInterval) return;
+        float delta = step * .5f;
+        
+        if (Input.GetKey(KeyCode.LeftArrow))
         {
             _tetris.MoveLeft();
         }
-        if (Input.GetKeyDown(KeyCode.RightArrow))
+        if (Input.GetKey(KeyCode.RightArrow))
         {
             _tetris.MoveRight();
         }
-        if (Input.GetKeyDown(KeyCode.UpArrow))
+        if (Input.GetKey(KeyCode.UpArrow))
         {
             _tetris.Rotate();
         }
-        if (Input.GetKeyDown(KeyCode.DownArrow))
+        if (Input.GetKey(KeyCode.DownArrow))
         {
             _tetris.MoveDown();
+            delta = step * .2f;
         }
+        
+        buttonPressedInterval = delta + Time.time;
     }
 
     private void DrawField(byte[,] matrix)

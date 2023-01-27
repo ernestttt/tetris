@@ -3,14 +3,19 @@
   <component name="ChangeListManager">
     <list default="true" id="a6ee9963-f115-4dd2-ba01-bb4841319982" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.simple/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.simple/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/square.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/square.prefab.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/tetris.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/tetris.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/TestScript.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/TestScript.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/TetrisManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/TetrisManager.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/48a62e69004742f0a8c6c7f9e0b9f0d34600/3f/5af846ca/TetrisCore.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -59,7 +64,7 @@
       <option name="presentableId" value="Default" />
       <updated>1674187008388</updated>
       <workItem from="1674187022151" duration="1263000" />
-      <workItem from="1674798117563" duration="7492000" />
+      <workItem from="1674798117563" duration="9950000" />
     </task>
     <servers />
   </component>
