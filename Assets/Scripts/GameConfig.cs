@@ -6,5 +6,7 @@ using UnityEngine;
 public class GameConfig : ScriptableObject
 {
     [SerializeField] private float stepsPerSecond;
-    public float Frequency => 1 / stepsPerSecond;
+    [SerializeField] private string libPath = "tetris_model/tetris/bin/Debug/netcoreapp2.1/Tetris.dll";
+    public float Frequency => 1 / stepsPerSecond; 
+    public string LibPath => libPath;
 }
