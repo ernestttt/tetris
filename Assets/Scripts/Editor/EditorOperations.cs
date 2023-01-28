@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEditor;
@@ -15,7 +13,7 @@ public class MenuScript
         {
             if (_gameConfig == null)
             {
-                string guid = AssetDatabase.FindAssets("t:" + typeof(GameConfig).Name).First();
+                string guid = AssetDatabase.FindAssets("t:" + nameof(GameConfig)).First();
                 if (!string.IsNullOrEmpty(guid))
                 {
                     string path = AssetDatabase.GUIDToAssetPath(guid);
@@ -35,13 +33,14 @@ public class MenuScript
         string sourceFileName = $"{Application.dataPath}/../{GameConfig.LibPath}";
         string destinationPath = $"{Application.dataPath}/Scripts/Libs/TetrisCore";
 
-        string projectDir = $"{sourceFileName}/../../../../";
+        string projectDir = $"{sourceFileName}";
         
         if (Directory.Exists(destinationPath))
         {
-            Directory.Delete(destinationPath);
+            Directory.Delete(destinationPath, true);
         }
         
+        // build dll
         Process process = new Process();
         ProcessStartInfo startInfo = new ProcessStartInfo();
         startInfo.RedirectStandardOutput = true;
@@ -52,6 +51,8 @@ public class MenuScript
         
         process.StartInfo = startInfo;
         process.Start();
+        
+        
         while (!process.StandardOutput.EndOfStream)
         {
             string line = process.StandardOutput.ReadToEnd();

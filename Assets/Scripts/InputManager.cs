@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
@@ -7,8 +6,6 @@ using Zenject;
 public class InputManager : IInitializable, IFixedTickable
 {
     [Inject] private GameConfig _gameConfig;
-    
-    private float _buttonPressedTime;
     private float step;
 
     public event Action<Command[]> OnGetNewInput;
@@ -32,7 +29,6 @@ public class InputManager : IInitializable, IFixedTickable
     public void Initialize()
     {
         step = _gameConfig.Frequency;
-        _buttonPressedTime = step + Time.time;
     }
 
     public void FixedTick()
@@ -56,34 +52,32 @@ public class InputManager : IInitializable, IFixedTickable
         {
             SetButtonPressedValue(key, false);
         }
-        else if (Input.GetKey(key) || Input.GetKeyDown(key))
+        else if (Input.GetKey(key))
         {
             bool isButtonPressed = IsButtonPressed(key);
             if (isButtonPressed)
             {
                 if(Time.time > GetButtonNextTime(key))
                 {
-                    Command command = GetCommandForKey(key);
-                    if (command != Command.Empty)
-                    {
-                        _commands.Add(GetCommandForKey(key));
-                    }
-                
-                    AddButtonNextTime(key, Time.fixedTime + step * .25f * scale);
+                    UpdateCommandBuffer(key, .25f * scale);
                 }
             }
             else
             {
                 SetButtonPressedValue(key, true);
-                Command command = GetCommandForKey(key);
-                if (command != Command.Empty)
-                {
-                    _commands.Add(GetCommandForKey(key));
-                }
-
-                AddButtonNextTime(key, Time.fixedTime + step * scale);
+                UpdateCommandBuffer(key, scale);
             }
         }
+    }
+
+    private void UpdateCommandBuffer(KeyCode key, float speedCoefficient)
+    {
+        Command command = GetCommandForKey(key);
+        if (command != Command.Empty)
+        {
+            _commands.Add(GetCommandForKey(key));
+        }
+        AddButtonNextTime(key, Time.fixedTime + step * speedCoefficient);
     }
 
     private void SetButtonPressedValue(KeyCode key, bool value)

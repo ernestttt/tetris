@@ -3,11 +3,11 @@
   <component name="ChangeListManager">
     <list default="true" id="a6ee9963-f115-4dd2-ba01-bb4841319982" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.simple/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.simple/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/EditorOperations.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/EditorOperations.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Libs/TetrisCore.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Libs/TetrisCore.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tetris_model/tetris/Figure.cs" beforeDir="false" afterPath="$PROJECT_DIR$/tetris_model/tetris/Figure.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tetris_model/tetris/obj/project.assets.json" beforeDir="false" afterPath="$PROJECT_DIR$/tetris_model/tetris/obj/project.assets.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tetris_model/tetris/obj/project.nuget.cache" beforeDir="false" afterPath="$PROJECT_DIR$/tetris_model/tetris/obj/project.nuget.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/EditorOperations.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/EditorOperations.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/InputManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/InputManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/TetrisInstaller.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/TetrisInstaller.cs.meta" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,7 +27,6 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/e81f67accddf487594f1a567e610b4b916d200/84/1f65f69b/CreateAssetMenuAttribute.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/e81f67accddf487594f1a567e610b4b916d200/85/1d3c457b/MonoBehaviour.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/e81f67accddf487594f1a567e610b4b916d200/0f/3d6024ca/Application.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/TetrisInstaller.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/50cef547136cdc141995d1711546dca37446f6f270f77467af10dfd676dbd3d0/System.Diagnostics.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/48a62e69004742f0a8c6c7f9e0b9f0d34600/3f/5af846ca/TetrisCore.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
@@ -79,7 +78,7 @@
       <updated>1674187008388</updated>
       <workItem from="1674187022151" duration="1263000" />
       <workItem from="1674798117563" duration="16194000" />
-      <workItem from="1674874009933" duration="15116000" />
+      <workItem from="1674874009933" duration="17293000" />
     </task>
     <servers />
   </component>

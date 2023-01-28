@@ -1,22 +1,21 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class TetrisGrid : MonoBehaviour
 {
-    private const int GRID_WIDTH = 10;
-    private const int GRID_HEIGHT = 20;
-    
     [SerializeField] private RectTransform grid;
     [SerializeField] private SpriteRenderer squarePrefab;
     [SerializeField] private Transform pointsObj;
+    
+    private const int GRID_WIDTH = 10;
+    private const int GRID_HEIGHT = 20;
+
     private Vector3 _startPos;
     private float _verticalStep;
     private float _horizontalStep;
     
-    private readonly List<Transform> _freePoints = new List<Transform>();
-    private readonly List<Transform> _activePoints = new List<Transform>();
+    private readonly List<Transform> _freePoints = new();
+    private readonly List<Transform> _activePoints = new();
 
     private void Start()
     {
