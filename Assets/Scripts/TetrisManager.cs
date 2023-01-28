@@ -1,138 +1,76 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Tetris;
 using TMPro;
-using UnityEngine.UI;
+using Zenject;
 
-public class TetrisManager : MonoBehaviour
+public class TetrisManager : IInitializable, ITickable
 {
-    private readonly TetrisCore _tetris = new TetrisCore();
-
-    [SerializeField] private RectTransform grid;
-    [SerializeField] private SpriteRenderer squarePrefab;
-    [SerializeField] private float step = 0.5f;
-    [SerializeField] private Transform pointsObj;
-    [SerializeField] private TextMeshProUGUI scoreText;
-
+    [Inject] private GameConfig _gameConfig;
+    [Inject] private TetrisGrid _tetrisGrid;
+    [Inject] private InputManager _inputManager;
+    [Inject] private Menu _menu;
+    
+    private bool _isPlaying;
+    private float _step;
     private float _nextTime = 0;
-    private float verticalStep;
-    private float horizontalStep;
-    private Vector3 startPos;
-
-    private List<Transform> freePoints = new List<Transform>();
-    private List<Transform> activePoints = new List<Transform>();
-
-    private bool isPlaying;
-    private float buttonPressedInterval;
-
-    private void Start()
+    private readonly TetrisCore _tetris = new TetrisCore();
+    
+    public void Initialize()
     {
-        Vector3[] worldCorners = new Vector3[4];
-        grid.GetWorldCorners(worldCorners);
-        float width = worldCorners[2].x - worldCorners[1].x;
-        float height = worldCorners[1].y - worldCorners[0].y;
-        
-        verticalStep = height / 20;
-        horizontalStep = width / 10;
-        Bounds bounds = squarePrefab.localBounds;
-        float boxScale = horizontalStep / bounds.size.x;
-        squarePrefab.transform.localScale = new Vector3(boxScale, boxScale, boxScale);
-        startPos = worldCorners[1] + 
-                   new Vector3(bounds.extents.x * boxScale, -bounds.extents.y * boxScale);
-
-        squarePrefab.gameObject.SetActive(false);
-
+        _step = _gameConfig.Frequency;
         _tetris.GameOverEvent += () =>
         {
-            isPlaying = false;
+            _isPlaying = false;
             Debug.Log("Game Over");
         };
-
-        isPlaying = true;
+        _inputManager.OnGetNewInput += SetComands;
+        _isPlaying = true;
     }
 
-    private void Update()
+    
+    public void Tick()
     {
-        if (!isPlaying) 
+        if (!_isPlaying) 
             return;
-        CheckInput();
+        
         if (Time.time > _nextTime)
         {
             _tetris.MoveDown();
-            DrawField(_tetris.ViewMatrix);
-            _nextTime = Time.time + step;
-            scoreText.text = $"Completed rows: {_tetris.CompletedRows}";
-        }
-    }
-
-    private void CheckInput()
-    {
-        if (Time.time < buttonPressedInterval) return;
-        float delta = step * .5f;
-        
-        if (Input.GetKey(KeyCode.LeftArrow))
-        {
-            _tetris.MoveLeft();
-        }
-        if (Input.GetKey(KeyCode.RightArrow))
-        {
-            _tetris.MoveRight();
-        }
-        if (Input.GetKey(KeyCode.UpArrow))
-        {
-            _tetris.Rotate();
-        }
-        if (Input.GetKey(KeyCode.DownArrow))
-        {
-            _tetris.MoveDown();
-            delta = step * .2f;
+            _nextTime = Time.time + _step;
+            SetComand(Command.Down);
         }
         
-        buttonPressedInterval = delta + Time.time;
+        _menu.UpdateScoreText(_tetris.CompletedRows);
     }
 
-    private void DrawField(byte[,] matrix)
+    private void SetComands(Command[] commands)
     {
-        FreePoints();
-        for (int i = 0; i < matrix.GetLength(0); i++)
+        for (int i = 0; i < commands.Length; i++)
         {
-            for (int j = 0; j < matrix.GetLength(1); j++)
-            {
-                if (matrix[i, j] != 0)
-                {
-                    Transform point = GetPoint();
-                    point.position = startPos + new Vector3(horizontalStep * j, -verticalStep * i);
-                }
-            }
+            SetComand(commands[i]);
         }
     }
-
-    private void FreePoints()
+    
+    
+    private void SetComand(Command command)
     {
-        activePoints.ForEach(a => a.gameObject.SetActive(false));
-        freePoints.AddRange(activePoints);
-        activePoints.Clear();
-    }
+        switch (command)
+        {
+            case Command.Down:
+                _tetris.MoveDown();
+                break;
+            case Command.Left:
+                _tetris.MoveLeft();
+                break;
+            case Command.Right:
+                _tetris.MoveRight();
+                break;
+            case Command.Rotate:
+                _tetris.Rotate();
+                break;
+        }
 
-    private Transform GetPoint()
-    {
-        Transform point;
-        if (freePoints.Count == 0)
-        {
-            point = Instantiate(squarePrefab, pointsObj).transform;
-            activePoints.Add(point.transform);
-        }
-        else
-        {
-            int lastIndex = freePoints.Count - 1;
-            point = freePoints[lastIndex];
-            freePoints.RemoveAt(lastIndex);
-            activePoints.Add(point);
-        }
-        
-        point.gameObject.SetActive(true);
-        return point;
+        _tetrisGrid.Draw(_tetris.ViewMatrix);
     }
 }

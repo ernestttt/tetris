@@ -3,18 +3,32 @@
   <component name="ChangeListManager">
     <list default="true" id="a6ee9963-f115-4dd2-ba01-bb4841319982" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.simple/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.simple/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/square.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/square.prefab.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/tetris.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/tetris.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Tetris.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Tetris/Tetris.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Tetris/Tetris.dll.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Tetris/Tetris.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Tetris/Tetris.xml.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/TetrisManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/TetrisManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/e81f67accddf487594f1a567e610b4b916d200/84/1f65f69b/CreateAssetMenuAttribute.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/e81f67accddf487594f1a567e610b4b916d200/85/1d3c457b/MonoBehaviour.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/TetrisInstaller.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/48a62e69004742f0a8c6c7f9e0b9f0d34600/3f/5af846ca/TetrisCore.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -44,10 +58,10 @@
       </option>
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="31008">
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="31672">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" value="31008" />
+      <option name="pid" value="31672" />
       <option name="projectPathOnTarget" />
       <option name="selectedOptions">
         <list />
@@ -64,7 +78,8 @@
       <option name="presentableId" value="Default" />
       <updated>1674187008388</updated>
       <workItem from="1674187022151" duration="1263000" />
-      <workItem from="1674798117563" duration="9950000" />
+      <workItem from="1674798117563" duration="16194000" />
+      <workItem from="1674874009933" duration="8021000" />
     </task>
     <servers />
   </component>
