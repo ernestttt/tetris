@@ -3,12 +3,11 @@
   <component name="ChangeListManager">
     <list default="true" id="a6ee9963-f115-4dd2-ba01-bb4841319982" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.simple/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.simple/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game Config.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game Config.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameConfig.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameConfig.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Libs/Tetris.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Libs/Tetris.dll.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Libs/Tetris.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Libs/Tetris.xml.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/EditorOperations.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/EditorOperations.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Libs/TetrisCore.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Libs/TetrisCore.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tetris_model/tetris/Figure.cs" beforeDir="false" afterPath="$PROJECT_DIR$/tetris_model/tetris/Figure.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tetris_model/tetris/obj/project.assets.json" beforeDir="false" afterPath="$PROJECT_DIR$/tetris_model/tetris/obj/project.assets.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tetris_model/tetris/obj/project.nuget.cache" beforeDir="false" afterPath="$PROJECT_DIR$/tetris_model/tetris/obj/project.nuget.cache" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,10 +23,12 @@
     </file-type-list>
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/5a41d6b7189842eca409fd0b1c3e3dcf17bf78/94/286d7e15/DataReceivedEventHandler.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/e81f67accddf487594f1a567e610b4b916d200/84/1f65f69b/CreateAssetMenuAttribute.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/e81f67accddf487594f1a567e610b4b916d200/85/1d3c457b/MonoBehaviour.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/e81f67accddf487594f1a567e610b4b916d200/0f/3d6024ca/Application.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/TetrisInstaller.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/50cef547136cdc141995d1711546dca37446f6f270f77467af10dfd676dbd3d0/System.Diagnostics.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/48a62e69004742f0a8c6c7f9e0b9f0d34600/3f/5af846ca/TetrisCore.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -78,7 +79,7 @@
       <updated>1674187008388</updated>
       <workItem from="1674187022151" duration="1263000" />
       <workItem from="1674798117563" duration="16194000" />
-      <workItem from="1674874009933" duration="10927000" />
+      <workItem from="1674874009933" duration="15116000" />
     </task>
     <servers />
   </component>
@@ -90,24 +91,5 @@
   <component name="UnityUnitTestConfiguration" currentTestLauncher="EditMode" />
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Scripts/EditorOperations.cs</url>
-          <line>31</line>
-          <properties documentPath="D:\unity_projects\simple\Assets\Scripts\EditorOperations.cs" initialLine="31" containingFunctionPresentation="method 'UpdateLibrary'">
-            <startOffsets>
-              <option value="812" />
-            </startOffsets>
-            <endOffsets>
-              <option value="813" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="7" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

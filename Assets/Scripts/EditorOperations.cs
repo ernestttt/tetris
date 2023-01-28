@@ -4,6 +4,8 @@ using System.IO;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using System.Diagnostics;
+using Debug = UnityEngine.Debug;
 
 public class MenuScript
 {
@@ -31,12 +33,29 @@ public class MenuScript
     private static void UpdateLibrary()
     {
         string sourceFileName = $"{Application.dataPath}/../{GameConfig.LibPath}";
-        string destinationFileName = $"{Application.dataPath}/Scripts/Libs/TetrisCore.dll";
+        string destinationPath = $"{Application.dataPath}/Scripts/Libs/TetrisCore";
 
-        if (File.Exists(destinationFileName))
+        string projectDir = $"{sourceFileName}/../../../../";
+        
+        if (Directory.Exists(destinationPath))
         {
-            File.Delete(destinationFileName);
+            Directory.Delete(destinationPath);
         }
-        File.Copy(sourceFileName, destinationFileName);
+        
+        Process process = new Process();
+        ProcessStartInfo startInfo = new ProcessStartInfo();
+        startInfo.RedirectStandardOutput = true;
+        startInfo.UseShellExecute = false;
+        startInfo.WindowStyle = ProcessWindowStyle.Hidden;
+        startInfo.FileName = "cmd.exe";
+        startInfo.Arguments = $"/C cd /d {projectDir} && dotnet build -o {destinationPath}";
+        
+        process.StartInfo = startInfo;
+        process.Start();
+        while (!process.StandardOutput.EndOfStream)
+        {
+            string line = process.StandardOutput.ReadToEnd();
+            Debug.Log(line);
+        }
     }
 }

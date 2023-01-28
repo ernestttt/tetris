@@ -923,7 +923,8 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\yurig\\.nuget\\packages\\": {}
+    "C:\\Users\\yurig\\.nuget\\packages\\": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
@@ -934,6 +935,9 @@
       "packagesPath": "C:\\Users\\yurig\\.nuget\\packages\\",
       "outputPath": "D:\\unity_projects\\simple\\tetris_model\\tetris\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+      ],
       "configFilePaths": [
         "C:\\Users\\yurig\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
