@@ -1,30 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Numerics;
 
 namespace Tetris
 {
     internal class Heap
     {
-        public int[,] Matrix => matrix;
+        internal int[,] Matrix => matrix;
 
-        public event Action<int> CompletedRowsEvent;
+        internal event Action<int> CompletedRowsEvent;
 
+        // x, y topleft offset
+        private int[] offset = new int[2];
 
-        public bool IsOverlapOrOverBorder(Point[] points, Figure.ExtremePoints extremePoints)
+        internal bool IsOverlapOrOverBorder(int[,] points, int[,] extremePoints)
         {
-            Point offsetPoint = GetOverBorderOffset(extremePoints);
-            bool isOverBorder = offsetPoint.X != 0 || offsetPoint.Y != 0;
+            int[] offset = GetOverBorderOffset(extremePoints);
+            bool isOverBorder = offset[0] != 0 || offset[1] != 0;
             return IsOverlap(points) || isOverBorder;
         }
 
 
-        public bool IsOverlap(Point[] points)
+        internal bool IsOverlap(int[,] points)
         {
-            foreach (Point point in points)
+            for(int i = 0; i < points.GetLength(0); i++)
             {
-                if (point.Y >= 0 && point.X >= 0 && point.X < matrix.GetLength(1) && point.Y < matrix.GetLength(0))
+                if (points[i,0] >= 0 && points[i,1] >= 0 && points[i,0] < matrix.GetLength(1) && points[i,1] < matrix.GetLength(0))
                 {
-                    if (matrix[point.Y, point.X] != 0)
+                    if (matrix[points[i,1], points[i,0]] != 0)
                         return true;
                 }
             }
@@ -33,39 +36,41 @@ namespace Tetris
         }
 
 
-        public Point GetOverBorderOffset(Figure.ExtremePoints extremePoints)
+        internal int[] GetOverBorderOffset(int[,] extremePoints)
         {
             int offsetX = 0;
             int offsetY = 0;
 
-            if (extremePoints.LeftmostX < 0)
+            if (extremePoints[0,0] < 0)
             {
-                offsetX = extremePoints.LeftmostX;
+                offsetX = extremePoints[0, 0];
             }
 
-            if (extremePoints.RightmostX >= matrix.GetLength(1))
+            if (extremePoints[1,0] >= matrix.GetLength(1))
             {
-                offsetX = matrix.GetLength(1) - 1 - extremePoints.RightmostX;
+                offsetX = matrix.GetLength(1) - 1 - extremePoints[1, 0];
             }
 
-            if (extremePoints.LowestY >= matrix.GetLength(0))
+            if (extremePoints[1,1] >= matrix.GetLength(0))
             {
-                offsetY = matrix.GetLength(0) - 1 - extremePoints.LowestY;
+                offsetY = matrix.GetLength(0) - 1 - extremePoints[1, 1];
             }
 
-            Point offsetPoint = new Point(offsetX, offsetY);
+            offset[0] = offsetX;
+            offset[1] = offsetY;
 
-            return offsetPoint;
+
+            return offset;
         }
 
 
-        public void Add(Point[] points)
+        internal void Add(int[,] points)
         {
-            foreach (Point point in points)
+            for(int i = 0; i < points.GetLength(0); i++)
             {
-                if (point.X >= 0 && point.Y >= 0 && point.X < matrix.GetLength(1) && point.Y < matrix.GetLength(0))
+                if (points[i,0] >= 0 && points[i,1] >= 0 && points[i,0] < matrix.GetLength(1) && points[i,1] < matrix.GetLength(0))
                 {
-                    matrix[point.Y, point.X] = 1;
+                    matrix[points[i, 1], points[i, 0]] = 1;
                 }
             }
 

@@ -1,4 +1,5 @@
 using System;
+using System.Drawing;
 using System.Linq;
 
 namespace Tetris
@@ -22,44 +23,68 @@ namespace Tetris
 
         internal int[] Pos => pos;
 
-        internal Point[] Points => new Point[] { Point1, Point2, Point3, Point4 };
-
-        // extreme x and y coordinates of figure in 4x4 matrix
-        internal ExtremePoints ExtremePointsOfFigure
+        private int[,] pointsWithSize = new int[4, 2];
+        internal int[,] PointsWithSize
         {
             get
             {
-                var orderedByX = Points.OrderBy(a => a.X).Select(a => a.X);
-                var orderedByY = Points.OrderBy(a => a.Y).Select(a => a.Y);
+                pointsWithSize[0, 0] = points[0, 0] + pos[0];
+                pointsWithSize[0, 1] = points[0, 1] + pos[1] - SPAWNER_HEIGHT;
+                pointsWithSize[1, 0] = points[1, 0] + pos[0];
+                pointsWithSize[1, 1] = points[1, 1] + pos[1] - SPAWNER_HEIGHT;
+                pointsWithSize[2, 0] = points[2, 0] + pos[0];
+                pointsWithSize[2, 1] = points[2, 1] + pos[1] - SPAWNER_HEIGHT;
+                pointsWithSize[3, 0] = points[3, 0] + pos[0];
+                pointsWithSize[3, 1] = points[3, 1] + pos[1] - SPAWNER_HEIGHT;
 
-                return new ExtremePoints(orderedByY.First(), orderedByY.Last(), orderedByX.First(), orderedByX.Last());
+                return pointsWithSize;
+            }
+        }
+
+        private int[,] extremePoints = new int[2,2];
+        // 2 [x, y] points of the figure, [0] is top left, [1] is bottom right point
+        internal int[,] ExtremePointsOfFigure
+        {
+            get
+            {
+                int topY = int.MaxValue;
+                int bottomY = int.MinValue;
+                int leftX = int.MaxValue;
+                int rightX = int.MinValue;
+
+                for (int i = 0; i < PointsWithSize.GetLength(0); i++)
+                {
+                    if (PointsWithSize[i,0] < leftX)
+                    {
+                        leftX = PointsWithSize[i, 0];
+                    }
+                    if (PointsWithSize[i,0] > rightX)
+                    {
+                        rightX = PointsWithSize[i, 0];
+                    }
+                    if (PointsWithSize[i,1] > bottomY)
+                    {
+                        bottomY = PointsWithSize[i,1];
+                    }
+                    if (PointsWithSize[i,1] < topY)
+                    {
+                        topY = PointsWithSize[i,1];
+                    }
+                }
+
+                extremePoints[0, 0] = leftX;
+                extremePoints[0, 1] = topY;
+                extremePoints[1, 0] = rightX;
+                extremePoints[1, 1] = bottomY;
+
+                return extremePoints;
             }
         }
 
         internal event Action CantMoveOnSpawnEvent;
 
 
-        internal Figure(Heap heap)
-        {
-            this.heap = heap;
-        }
-
-
-        internal void Spawn()
-        {
-            currentFigure = (TetrisFigure)random.Next(7);
-            currentRotation = random.Next(4);
-            Matrix = TetrisFigures.GetFigure(currentFigure, currentRotation);
-
-            // place figure in random position
-            pos[0] = random.Next(0, SPAWNER_WIDTH - innerSize[0]) - offset[0];
-            pos[1] = SPAWNER_HEIGHT - innerSize[1] - offset[1];
-
-            IsEmpty = false;
-        }
-
-
-        internal bool Move(MovementType movement)
+        internal bool Move(MovementType movement, Func<int[,], int[,], bool> checkForOverlap)
         {
             bool result = true;
 
@@ -72,32 +97,18 @@ namespace Tetris
             int delta = movement == MovementType.Left ? -1 : 1;
             pos[posIndex] += delta;
 
-            if (heap.IsOverlapOrOverBorder(Points, ExtremePointsOfFigure))
+            if (checkForOverlap(PointsWithSize, ExtremePointsOfFigure))
             {
                 // reverse position
                 pos[posIndex] -= delta;
-
                 result = false;
-
-                // figure touch the heap on moving down
-                if (movement == MovementType.Down)
-                {
-                    // check for game over
-                    if (ExtremePointsOfFigure.TopmostY < 0)
-                    {
-                        CantMoveOnSpawnEvent?.Invoke();
-                    }
-
-                    heap.Add(Points);
-                    Clear();
-                }
             }
 
             return result;
         }
 
 
-        internal bool Rotate()
+        internal bool Rotate(Func<int[,], int[]> getOverBorderOffset, Func<int[,], bool> isOverlap)
         {
             // remember old state
             int[,] oldMatrix = Matrix;
@@ -107,21 +118,21 @@ namespace Tetris
             currentRotation %= 4;
             Matrix = TetrisFigures.GetFigure(currentFigure, currentRotation);
 
-            Point offset = heap.GetOverBorderOffset(ExtremePointsOfFigure);
-            if (offset.X != 0 || offset.Y != 0)
+            int[] offset = getOverBorderOffset(ExtremePointsOfFigure);
+
+            // try to adjust position
+            pos[0] -= offset[0];
+            pos[1] -= offset[1];
+
+            // figure can't be rotated, return to old state
+            if (isOverlap(PointsWithSize))
             {
-                // try to adjust position
-                pos[0] -= offset.X;
-                pos[1] -= offset.Y;
+                pos[0] += offset[0];
+                pos[1] += offset[1];
+                Matrix = oldMatrix;
+                currentRotation = oldRotation;
 
-                // figure can't be rotated, return to old state
-                if (heap.IsOverlap(Points))
-                {
-                    Matrix = oldMatrix;
-                    currentRotation = oldRotation;
-
-                    return false;
-                }
+                return false;
             }
 
             return true;
@@ -149,24 +160,24 @@ namespace Tetris
         // points with figure inner indexis, [i,0] - x, [i,1] - y
         private int[,] points = new int[4, 2];
 
-        private readonly Heap heap;
-
         private TetrisFigure currentFigure;
         private int currentRotation;
 
-        // 4 points of figure
-        private Point Point1 => new Point(points[0, 0] + pos[0], points[0, 1] + pos[1] - SPAWNER_HEIGHT);
-        private Point Point2 => new Point(points[1, 0] + pos[0], points[1, 1] + pos[1] - SPAWNER_HEIGHT);
-        private Point Point3 => new Point(points[2, 0] + pos[0], points[2, 1] + pos[1] - SPAWNER_HEIGHT);
-        private Point Point4 => new Point(points[3, 0] + pos[0], points[3, 1] + pos[1] - SPAWNER_HEIGHT);
+        
 
-
-        private void Clear()
+        public void Spawn()
         {
-            IsEmpty = true;
+            currentFigure = (TetrisFigure)random.Next(7);
+            currentRotation = random.Next(4);
+            Matrix = TetrisFigures.GetFigure(currentFigure, currentRotation);
+
+            // place figure in random position
+            pos[0] = random.Next(0, SPAWNER_WIDTH - innerSize[0]) - offset[0];
+            pos[1] = SPAWNER_HEIGHT - innerSize[1] - offset[1];
+
+            IsEmpty = false;
         }
 
-        
         private void CalculatePoints()
         {
             CalculateInnerSizeAndOffset();
@@ -227,23 +238,6 @@ namespace Tetris
 
             offset[0] = startHorizontalIndex;
             offset[1] = startVerticalIndex;
-        }
-
-        internal struct ExtremePoints
-        {
-            internal int TopmostY { get; private set; }
-            internal int LowestY { get; private set; }
-            internal int LeftmostX { get; private set; }
-            internal int RightmostX { get; private set; }
-
-
-            public ExtremePoints(int topmostY, int lowestY, int leftmostY, int rightmostX)
-            {
-                TopmostY = topmostY;
-                LowestY = lowestY;
-                LeftmostX = leftmostY;
-                RightmostX = rightmostX;
-            }
         }
     }
 }

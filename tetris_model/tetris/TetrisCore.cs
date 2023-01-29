@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 
 namespace Tetris
 {
@@ -18,7 +19,7 @@ namespace Tetris
         public byte[,] ViewMatrix { get; private set; }
 
         /// <summary>
-        /// invoked when figure can't move down after spawn
+        /// Invoked when figure can't move down after spawn
         /// </summary>
         public event Action GameOverEvent;
 
@@ -26,8 +27,9 @@ namespace Tetris
         public TetrisCore()
         {
             ViewMatrix = new byte[20, 10];
-            figure = new Figure(heap);
-
+            figure = new Figure();
+            figure.Spawn();
+            heap = new Heap();
             figure.CantMoveOnSpawnEvent += () => GameOverEvent?.Invoke();
             heap.CompletedRowsEvent += (rows) => CompletedRows += rows;
         }
@@ -62,18 +64,32 @@ namespace Tetris
         /// </summary>
         public void Rotate()
         {
-            figure.Rotate();
+            figure.Rotate(heap.GetOverBorderOffset, heap.IsOverlap);
         }
 
 
         private readonly Figure figure;
 
-        private readonly Heap heap = new Heap();
+        private readonly Heap heap;
 
 
         private void Move(MovementType movementType)
         {
-            figure.Move(movementType);
+            bool result = figure.Move(movementType, heap.IsOverlapOrOverBorder);
+
+            // figure touch the heap on moving down
+            if (!result && movementType == MovementType.Down)
+            {
+                // check for game over
+                if (figure.ExtremePointsOfFigure[0, 1] < 0)
+                {
+                    GameOverEvent?.Invoke();
+                }
+
+                heap.Add(figure.PointsWithSize);
+                figure.Spawn();
+            }
+
             UpdateViewMatrix();
         }
 
@@ -102,11 +118,12 @@ namespace Tetris
         {
             if (!figure.IsEmpty)
             {
-                foreach (Point point in figure.Points)
+                int[,] pointsWithSize = figure.PointsWithSize;
+                for (int i = 0; i < pointsWithSize.GetLength(0); i++)
                 {
-                    if (point.X >= 0 && point.X < ViewMatrix.GetLength(1) && point.Y >= 0 && point.Y < ViewMatrix.GetLength(0))
+                    if (pointsWithSize[i,0] >= 0 && pointsWithSize[i, 1] >= 0 && pointsWithSize[i, 0] < ViewMatrix.GetLength(1) && pointsWithSize[i, 1] < ViewMatrix.GetLength(0))
                     {
-                        ViewMatrix[point.Y, point.X] = 1;
+                        ViewMatrix[pointsWithSize[i, 1], pointsWithSize[i,0]] = 1;
                     }
                 }
             }

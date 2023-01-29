@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Game Config
   m_EditorClassIdentifier: 
   stepsPerSecond: 2
-  libPath: tetris_model/tetris/bin/Debug/netcoreapp2.1/Tetris.dll
+  libPath: tetris_model/tetris/
