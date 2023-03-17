@@ -1,14 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a6ee9963-f115-4dd2-ba01-bb4841319982" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.simple/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.simple/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game Config.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game Config.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tetris_model/tetris/Figure.cs" beforeDir="false" afterPath="$PROJECT_DIR$/tetris_model/tetris/Figure.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tetris_model/tetris/Heap.cs" beforeDir="false" afterPath="$PROJECT_DIR$/tetris_model/tetris/Heap.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tetris_model/tetris/Point.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tetris_model/tetris/TetrisCore.cs" beforeDir="false" afterPath="$PROJECT_DIR$/tetris_model/tetris/TetrisCore.cs" afterDir="false" />
-    </list>
+    <list default="true" id="a6ee9963-f115-4dd2-ba01-bb4841319982" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -82,7 +75,7 @@
       <workItem from="1674187022151" duration="1263000" />
       <workItem from="1674798117563" duration="16194000" />
       <workItem from="1674874009933" duration="18172000" />
-      <workItem from="1674976238081" duration="2525000" />
+      <workItem from="1674976238081" duration="3178000" />
     </task>
     <servers />
   </component>
